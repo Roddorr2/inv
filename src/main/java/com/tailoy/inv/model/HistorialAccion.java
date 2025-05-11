@@ -1,6 +1,6 @@
 package com.tailoy.inv.model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,7 +14,7 @@ public class HistorialAccion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private LocalDate fecha;
+    private LocalDateTime fecha;
     private int tipoAccion;
     private String descripcion;
     private int modulo;
@@ -24,10 +24,10 @@ public class HistorialAccion {
     private Usuario usuario;
 
     public HistorialAccion() {
-        this.fecha = LocalDate.now();
+        this.fecha = LocalDateTime.now();
     }
 
-    public HistorialAccion(int id, LocalDate fecha, int tipoAccion, String descripcion, int modulo, Usuario usuario) {
+    public HistorialAccion(int id, LocalDateTime fecha, int tipoAccion, String descripcion, int modulo, Usuario usuario) {
         this.id = id;
         this.fecha = fecha;
         this.tipoAccion = tipoAccion;
@@ -44,11 +44,11 @@ public class HistorialAccion {
         this.id = id;
     }
 
-    public LocalDate getFecha() {
+    public LocalDateTime getFecha() {
         return fecha;
     }
 
-    public void setFecha(LocalDate fecha) {
+    public void setFecha(LocalDateTime fecha) {
         this.fecha = fecha;
     }
 

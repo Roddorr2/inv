@@ -1,6 +1,6 @@
 package com.tailoy.inv.model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,7 +15,7 @@ public class DespachoSucursal {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private int estadoOperacion;
-    private LocalDate fecha;
+    private LocalDateTime fecha;
     @ManyToOne
     @JoinColumn(name = "usuarioId", nullable = false)
     private Usuario usuario;
@@ -26,7 +26,7 @@ public class DespachoSucursal {
     public DespachoSucursal() {
     }
 
-    public DespachoSucursal(int id, int estadoOperacion, LocalDate fecha, Usuario usuario, Sucursal sucursal) {
+    public DespachoSucursal(int id, int estadoOperacion, LocalDateTime fecha, Usuario usuario, Sucursal sucursal) {
         this.id = id;
         this.estadoOperacion = estadoOperacion;
         this.fecha = fecha;
@@ -50,11 +50,11 @@ public class DespachoSucursal {
         this.estadoOperacion = estadoOperacion;
     }
 
-    public LocalDate getFecha() {
+    public LocalDateTime getFecha() {
         return fecha;
     }
 
-    public void setFecha(LocalDate fecha) {
+    public void setFecha(LocalDateTime fecha) {
         this.fecha = fecha;
     }
 

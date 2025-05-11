@@ -1,18 +1,20 @@
 package com.tailoy.inv.dto;
 
-import java.time.LocalDate;
+
+import java.time.LocalDateTime;
 import java.util.List;
+
 
 public class DespachoSucursalDTO {
     private int sucursalId;
-    private LocalDate fechaDespacho;
+    private LocalDateTime fechaDespacho;
     private List<ProductoDespachoDTO> productos;
     private int usuarioId;
     
     public DespachoSucursalDTO() {
     }
 
-    public DespachoSucursalDTO(int sucursalId, LocalDate fechaDespacho, List<ProductoDespachoDTO> productos,
+    public DespachoSucursalDTO(int sucursalId, LocalDateTime fechaDespacho, List<ProductoDespachoDTO> productos,
             int usuarioId) {
         this.sucursalId = sucursalId;
         this.fechaDespacho = fechaDespacho;
@@ -28,11 +30,11 @@ public class DespachoSucursalDTO {
         this.sucursalId = sucursalId;
     }
 
-    public LocalDate getFechaDespacho() {
+    public LocalDateTime getFechaDespacho() {
         return fechaDespacho;
     }
 
-    public void setFechaDespacho(LocalDate fechaDespacho) {
+    public void setFechaDespacho(LocalDateTime fechaDespacho) {
         this.fechaDespacho = fechaDespacho;
     }
 
@@ -51,6 +53,4 @@ public class DespachoSucursalDTO {
     public void setUsuarioId(int usuarioId) {
         this.usuarioId = usuarioId;
     }
-
-    
 }

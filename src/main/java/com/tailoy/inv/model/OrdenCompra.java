@@ -1,6 +1,6 @@
 package com.tailoy.inv.model;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -17,7 +17,7 @@ public class OrdenCompra {
     @ManyToOne
     @JoinColumn(name = "proveedorId", nullable = false)
     private Proveedor proveedor;
-    private Date fecha;
+    private LocalDateTime fecha;
     @ManyToOne
     @JoinColumn(name = "productoId", nullable = false)
     private Usuario usuario;
@@ -26,7 +26,7 @@ public class OrdenCompra {
     public OrdenCompra() {
     }
 
-    public OrdenCompra(int id, Proveedor proveedor, Date fecha, Usuario usuario, int estadoOperacion) {
+    public OrdenCompra(int id, Proveedor proveedor, LocalDateTime fecha, Usuario usuario, int estadoOperacion) {
         this.id = id;
         this.proveedor = proveedor;
         this.fecha = fecha;
@@ -50,11 +50,11 @@ public class OrdenCompra {
         this.proveedor = proveedor;
     }
 
-    public Date getFecha() {
+    public LocalDateTime getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(LocalDateTime fecha) {
         this.fecha = fecha;
     }
 

@@ -1,15 +1,15 @@
 package com.tailoy.inv.dto;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class OrdenCompraDTO {
     private int proveedorId;
-    private LocalDate fechaEntregaEstimada;
+    private LocalDateTime fechaEntregaEstimada;
     private List<ProductoOrdenDTO> items;
     private int usuarioId;
 
-    public OrdenCompraDTO(int proveedorId, LocalDate fechaEntregaEstimada, List<ProductoOrdenDTO> items,
+    public OrdenCompraDTO(int proveedorId, LocalDateTime fechaEntregaEstimada, List<ProductoOrdenDTO> items,
         int usuarioId) {
         this.proveedorId = proveedorId;
         this.fechaEntregaEstimada = fechaEntregaEstimada;
@@ -25,11 +25,11 @@ public class OrdenCompraDTO {
         this.proveedorId = proveedorId;
     }
 
-    public LocalDate getFechaEntregaEstimada() {
+    public LocalDateTime getFechaEntregaEstimada() {
         return fechaEntregaEstimada;
     }
 
-    public void setFechaEntregaEstimada(LocalDate fechaEntregaEstimada) {
+    public void setFechaEntregaEstimada(LocalDateTime fechaEntregaEstimada) {
         this.fechaEntregaEstimada = fechaEntregaEstimada;
     }
 
