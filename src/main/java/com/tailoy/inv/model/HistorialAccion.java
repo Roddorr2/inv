@@ -1,16 +1,23 @@
 package com.tailoy.inv.model;
 
 import java.time.LocalDate;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
 public class HistorialAccion {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private LocalDate fecha;
-    private String tipoAccion;
+    private int tipoAccion;
     private String descripcion;
+    private int modulo;
 
     @ManyToOne
     @JoinColumn(name = "usuarioId", nullable = false)
@@ -20,11 +27,12 @@ public class HistorialAccion {
         this.fecha = LocalDate.now();
     }
 
-    public HistorialAccion(int id, LocalDate fecha, String tipoAccion, String descripcion, Usuario usuario) {
+    public HistorialAccion(int id, LocalDate fecha, int tipoAccion, String descripcion, int modulo, Usuario usuario) {
         this.id = id;
         this.fecha = fecha;
         this.tipoAccion = tipoAccion;
         this.descripcion = descripcion;
+        this.modulo = modulo;
         this.usuario = usuario;
     }
 
@@ -44,11 +52,11 @@ public class HistorialAccion {
         this.fecha = fecha;
     }
 
-    public String getTipoAccion() {
+    public int getTipoAccion() {
         return tipoAccion;
     }
 
-    public void setTipoAccion(String tipoAccion) {
+    public void setTipoAccion(int tipoAccion) {
         this.tipoAccion = tipoAccion;
     }
 
@@ -58,6 +66,14 @@ public class HistorialAccion {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public int getModulo() {
+        return modulo;
+    }
+
+    public void setModulo(int modulo) {
+        this.modulo = modulo;
     }
 
     public Usuario getUsuario() {

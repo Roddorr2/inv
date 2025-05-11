@@ -10,12 +10,12 @@ public class MovimientoAlmacen {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String tipoAlmacen;
+    private int tipoAlmacen;
 
     public MovimientoAlmacen() {
     }
 
-    public MovimientoAlmacen(int id, String tipoAlmacen) {
+    public MovimientoAlmacen(int id, int tipoAlmacen) {
         this.id = id;
         this.tipoAlmacen = tipoAlmacen;
     }
@@ -28,11 +28,11 @@ public class MovimientoAlmacen {
         this.id = id;
     }
 
-    public String getTipoAlmacen() {
+    public int getTipoAlmacen() {
         return tipoAlmacen;
     }
 
-    public void setTipoAlmacen(String tipoAlmacen) {
+    public void setTipoAlmacen(int tipoAlmacen) {
         this.tipoAlmacen = tipoAlmacen;
     }
 }
