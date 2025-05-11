@@ -1,6 +1,6 @@
 package com.tailoy.inv.service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.tailoy.inv.dto.OrdenCompraDTO;
@@ -11,7 +11,7 @@ public interface OrdenCompraService {
     OrdenCompra obtenerPorId(int id);
     List<OrdenCompra> listarOrdenes();
     List<OrdenCompra> listarPorEstado(int estadoOperacion);
-    List<OrdenCompra> buscarPorFechas(LocalDate desde, LocalDate hasta);
+    List<OrdenCompra> buscarPorFechas(LocalDateTime desde, LocalDateTime hasta);
     void actualizarEstado(int ordenId, int nuevoEstado);
     byte[] exportarOrden(int ordenId, String fromato);
 }
