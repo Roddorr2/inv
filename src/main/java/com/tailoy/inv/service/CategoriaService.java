@@ -10,7 +10,6 @@ public interface CategoriaService {
     List<Categoria> listarCategorias();
     Optional<Categoria> obtenerCategoriaPorId(int id);
     Categoria actualizarCategoria(Categoria categoria);
-    void eliminarCategoria(int id);
     boolean existeCategoriaPorNombre(String nombre);
 }
 
