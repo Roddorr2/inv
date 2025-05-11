@@ -1,14 +1,16 @@
 package com.tailoy.inv.dto;
 
-public class ItemOrdenCompraDTO {
+public class ProductoOrdenDTO {
     private int productoId;
     private int cantidad;
     private double precioUnitario;
-    
-    public ItemOrdenCompraDTO(int productoId, int cantidad, double precioUnitario) {
+    private String observaciones;
+
+    public ProductoOrdenDTO(int productoId, int cantidad, double precioUnitario, String observaciones) {
         this.productoId = productoId;
         this.cantidad = cantidad;
         this.precioUnitario = precioUnitario;
+        this.observaciones = observaciones;
     }
 
     public int getProductoId() {
@@ -35,5 +37,11 @@ public class ItemOrdenCompraDTO {
         this.precioUnitario = precioUnitario;
     }
 
-    
+    public String getObservaciones() {
+        return observaciones;
+    }
+
+    public void setObservaciones(String observaciones) {
+        this.observaciones = observaciones;
+    }
 }

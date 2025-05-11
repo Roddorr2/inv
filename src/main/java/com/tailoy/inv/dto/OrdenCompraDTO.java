@@ -6,11 +6,11 @@ import java.util.List;
 public class OrdenCompraDTO {
     private int proveedorId;
     private LocalDate fechaEntregaEstimada;
-    private List<ItemOrdenCompraDTO> items;
+    private List<ProductoOrdenDTO> items;
     private int usuarioId;
 
-    public OrdenCompraDTO(int proveedorId, LocalDate fechaEntregaEstimada, List<ItemOrdenCompraDTO> items,
-            int usuarioId) {
+    public OrdenCompraDTO(int proveedorId, LocalDate fechaEntregaEstimada, List<ProductoOrdenDTO> items,
+        int usuarioId) {
         this.proveedorId = proveedorId;
         this.fechaEntregaEstimada = fechaEntregaEstimada;
         this.items = items;
@@ -33,11 +33,11 @@ public class OrdenCompraDTO {
         this.fechaEntregaEstimada = fechaEntregaEstimada;
     }
 
-    public List<ItemOrdenCompraDTO> getItems() {
+    public List<ProductoOrdenDTO> getItems() {
         return items;
     }
 
-    public void setItems(List<ItemOrdenCompraDTO> items) {
+    public void setItems(List<ProductoOrdenDTO> items) {
         this.items = items;
     }
 

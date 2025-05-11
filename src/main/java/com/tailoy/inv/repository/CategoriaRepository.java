@@ -7,4 +7,5 @@ import com.tailoy.inv.model.Categoria;
 
 @Repository
 public interface CategoriaRepository extends JpaRepository<Categoria, Integer> {
+    boolean existsByNombre(String nombre);
 }

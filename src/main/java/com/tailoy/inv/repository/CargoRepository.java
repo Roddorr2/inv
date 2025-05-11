@@ -7,5 +7,5 @@ import com.tailoy.inv.model.Cargo;
 
 @Repository
 public interface CargoRepository extends JpaRepository<Cargo, Integer>{
-
+    boolean existsByNombre(String nombre);
 }
