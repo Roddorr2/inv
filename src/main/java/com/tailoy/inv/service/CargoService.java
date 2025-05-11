@@ -10,6 +10,5 @@ public interface CargoService {
     List<Cargo> listarCargos();
     Optional<Cargo> obtenerCargosPorId(int id);
     Cargo actualizarCargo(Cargo cargo);
-    void eliminarCargo(int id);
     boolean existeCargoPorNombre(String nombre);
 }
