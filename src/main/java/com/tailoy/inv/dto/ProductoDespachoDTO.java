@@ -39,9 +39,7 @@ public class ProductoDespachoDTO {
     public void setPrecioUnitario(double precioUnitario) {
         this.precioUnitario = precioUnitario;
     }
-
-    
-    
+        
     public String getObservaciones() {
         return observaciones;
     }
