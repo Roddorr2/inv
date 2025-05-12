@@ -26,7 +26,7 @@ public class MovimientoInventario {
     private Usuario usuario;
 
     public MovimientoInventario() {
-        this.fecha = LocalDateTime.now(); // Por defecto al crear
+        this.fecha = LocalDateTime.now(); 
     }
 
     public MovimientoInventario(int id, int cantidad, String nombre, int tipoMovimiento, LocalDateTime fecha, Producto producto, Usuario usuario) {
