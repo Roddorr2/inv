@@ -1,0 +1,72 @@
+package com.tailoy.inv.service.impl;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.tailoy.inv.model.HistorialAccion;
+import com.tailoy.inv.model.Usuario;
+import com.tailoy.inv.repository.HistorialAccionRepository;
+import com.tailoy.inv.repository.UsuarioRepository;
+import com.tailoy.inv.service.HistorialAccionService;
+
+@Service
+public class HistorialAccionServiceImpl implements HistorialAccionService{
+    @Autowired
+    private HistorialAccionRepository historialAccionRepo;
+    @Autowired
+    private UsuarioRepository usuarioRepo;
+
+    @Override
+    public void registrarAccion(String nombreUsuario, int tipoAccion, String descripcion, int modulo) {
+        if (nombreUsuario == null || nombreUsuario.trim().isEmpty()) {
+            throw new IllegalArgumentException("El nombre del usuario no puede estar vacío.");
+        }
+
+        if (descripcion == null || descripcion.trim().isEmpty()) {
+            throw new IllegalArgumentException("La descripción no puede estar vacía.");
+        }
+
+        Usuario usuario = usuarioRepo.findByNombre(nombreUsuario)
+                .orElseThrow(() -> new RuntimeException("Usuario con nombre " + nombreUsuario + " no encontrado."));
+
+        HistorialAccion accion = new HistorialAccion();
+        accion.setUsuario(usuario);
+        accion.setTipoAccion(tipoAccion);
+        accion.setDescripcion(descripcion);
+        accion.setModulo(modulo);
+
+        historialAccionRepo.save(accion);
+    }
+
+    @Override
+    public List<HistorialAccion> obtenerHistorialCompleto() {
+        return historialAccionRepo.findAll();
+    }
+
+    @Override
+    public List<HistorialAccion> buscarHistorial(String nombreUsuario, int tipoAccion) {
+        if (nombreUsuario == null || nombreUsuario.trim().isEmpty()) {
+            throw new IllegalArgumentException("El nombre del usuario no puede estar vacío.");
+        }
+        return historialAccionRepo.findByUsuarioNombreAndTipoAccion(nombreUsuario, tipoAccion);
+    }
+
+    @Override
+    public List<HistorialAccion> buscarHistorial(String nombreUsuario, int tipoAccion, LocalDateTime fechaInicio, LocalDateTime fechaFin, int modulo) {
+        if (fechaInicio.isAfter(fechaFin)) {
+            throw new IllegalArgumentException("La fecha de inicio no puede ser posterior a la fecha de fin.");
+        }
+
+        return historialAccionRepo.findByUsuarioNombreAndTipoAccionAndFechaBetweenAndModulo(nombreUsuario, tipoAccion, fechaInicio, fechaFin, modulo);
+    }
+
+    @Override
+    public HistorialAccion obtenerPorId(int id) {
+        return historialAccionRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Historial con ID " + id + " no encontrado.")); 
+    }
+
+}

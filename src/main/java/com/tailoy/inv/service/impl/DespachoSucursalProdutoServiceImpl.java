@@ -69,20 +69,30 @@ public class DespachoSucursalProdutoServiceImpl implements DespachoSucursalProdu
 
     @Override
     public List<DespachoSucursalProducto> obtenerProductosPorDespacho(int despachoId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'obtenerProductosPorDespacho'");
+        if (despachoId <= 0) {
+            throw new IllegalArgumentException("ID de despacho no válido.");
+        }
+        return despachoSucursalProductoRepository.findByDespachoSucursalId(despachoId);
     }
 
     @Override
     public void eliminarProductoDespacho(int despachoId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'eliminarProductoDespacho'");
+        if (despachoId <= 0) {
+            throw new IllegalArgumentException("ID de despacho no válido.");
+        }
+        despachoSucursalProductoRepository.deleteByDespachoSucursalId(despachoId);
     }
 
     @Override
     public boolean validarStockParaDespacho(List<ProductoDespachoDTO> productosDespacho) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'validarStockParaDespacho'");
+        for (ProductoDespachoDTO dto : productosDespacho) {
+            Producto producto = productoRepository.findById(dto.getProductoId())
+                    .orElse(null);
+            if (producto == null || producto.getStock() < dto.getCantidad()) {
+                return false;
+            }
+        }
+        return true;
     }
     
 }
