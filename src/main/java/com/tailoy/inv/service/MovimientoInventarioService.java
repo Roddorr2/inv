@@ -6,7 +6,7 @@ import java.util.List;
 import com.tailoy.inv.model.MovimientoInventario;
 
 public interface MovimientoInventarioService {
-    void registrarAjusteStock(int productoId, int cantidad, String motivo, int tipoMovimiento, int usuarioId);
+    void registrarAjusteStock(int productoId, int cantidad, String motivo, int tipoMovimiento, LocalDateTime fecha, int usuarioId);
     List<MovimientoInventario> listarMovimientos();
     List<MovimientoInventario> filtrarPorRangoFechas(LocalDateTime inicio, LocalDateTime fin);
     List<MovimientoInventario> filtrarPorUsuario(int usuarioId);

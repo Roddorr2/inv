@@ -3,11 +3,13 @@ package com.tailoy.inv.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.tailoy.inv.model.MovimientoAlmacen;
 import com.tailoy.inv.repository.MovimientoAlmacenRepository;
 import com.tailoy.inv.service.MovimientoAlmacenService;
 
+@Service
 public class MovimientoAlmacenServiceImpl implements MovimientoAlmacenService {
     @Autowired
     private MovimientoAlmacenRepository repo;
