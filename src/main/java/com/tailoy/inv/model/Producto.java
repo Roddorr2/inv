@@ -1,5 +1,6 @@
 package com.tailoy.inv.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,7 +13,11 @@ public class Producto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(unique = true)
+    private int codigo;
     private String nombre;
+    private String marca;
+    private String descripcion;
     private int stock;
     private double precioUnitario;
     private String unidadMedida;
@@ -25,14 +30,34 @@ public class Producto {
     public Producto() {
     }
 
-    public Producto(int id, String nombre, int stock, double precioUnitario, String unidadMedida, boolean estado, Subcategoria subcategoria) {
+    public Producto(int id, int codigo, String nombre, String marca, String descripcion, int stock, double precioUnitario,
+            String unidadMedida, boolean estado, Subcategoria subcategoria) {
         this.id = id;
+        this.codigo = codigo;
         this.nombre = nombre;
+        this.marca = marca;
+        this.descripcion = descripcion;
         this.stock = stock;
         this.precioUnitario = precioUnitario;
         this.unidadMedida = unidadMedida;
         this.estado = estado;
         this.subcategoria = subcategoria;
+    }
+
+    public int getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public int getId() {
@@ -49,6 +74,14 @@ public class Producto {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getMarca() {
+        return marca;
+    }
+
+    public void setMarca(String marca) {
+        this.marca = marca;
     }
 
     public int getStock() {
