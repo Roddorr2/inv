@@ -1,24 +1,36 @@
 package com.tailoy.inv.dto;
 
+import com.tailoy.inv.model.OrdenCompraProducto;
+
 public class ProductoOrdenDTO {
-    private int productoId;
+    private int id;
+    private ProductoDTO producto;
     private int cantidad;
     private double precioUnitario;
     private String observaciones;
 
-    public ProductoOrdenDTO(int productoId, int cantidad, double precioUnitario, String observaciones) {
-        this.productoId = productoId;
-        this.cantidad = cantidad;
-        this.precioUnitario = precioUnitario;
-        this.observaciones = observaciones;
+    public ProductoOrdenDTO(OrdenCompraProducto compraProducto) {
+        this.id = compraProducto.getId();
+        this.producto = new ProductoDTO(compraProducto.getProducto());
+        this.cantidad = compraProducto.getCantidad();
+        this.precioUnitario = compraProducto.getPrecioUnitario();
+        this.observaciones = compraProducto.getObservaciones();
     }
 
-    public int getProductoId() {
-        return productoId;
+    public int getId() {
+        return id;
     }
 
-    public void setProductoId(int productoId) {
-        this.productoId = productoId;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public ProductoDTO getProducto() {
+        return producto;
+    }
+
+    public void setProducto(ProductoDTO producto) {
+        this.producto = producto;
     }
 
     public int getCantidad() {
