@@ -1,17 +1,19 @@
 package com.tailoy.inv.dto;
 
+import com.tailoy.inv.model.Subcategoria;
+
 public class SubcategoriaDTO {
     private int id;
     private String nombre;
-    private int categoriaId;
+    private CategoriaDTO categoria;
 
     public SubcategoriaDTO() {
     }
 
-    public SubcategoriaDTO(int id, String nombre, int categoriaId) {
-        this.id = id;
-        this.nombre = nombre;
-        this.categoriaId = categoriaId;
+    public SubcategoriaDTO(Subcategoria subcategoria) {
+        this.id = subcategoria.getId();
+        this.nombre = subcategoria.getNombre();
+        this.categoria = new CategoriaDTO(subcategoria.getCategoria());
     }
 
     public int getId() {
@@ -30,11 +32,11 @@ public class SubcategoriaDTO {
         this.nombre = nombre;
     }
 
-    public int getCategoriaId() {
-        return categoriaId;
+    public CategoriaDTO getCategoria() {
+        return categoria;
     }
 
-    public void setCategoriaId(int categoriaId) {
-        this.categoriaId = categoriaId;
+    public void setCategoria(CategoriaDTO categoria) {
+        this.categoria = categoria;
     }
 }
