@@ -4,30 +4,52 @@ package com.tailoy.inv.dto;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.tailoy.inv.model.DespachoSucursal;
+
 
 public class DespachoSucursalDTO {
-    private int sucursalId;
+    private int id;
+    private UsuarioDTO usuario;
+    private int estadoOperacion;
     private LocalDateTime fechaDespacho;
+    private SucursalDTO sucursal;
     private List<ProductoDespachoDTO> productos;
-    private int usuarioId;
+    
     
     public DespachoSucursalDTO() {
+        this.estadoOperacion = 1;
     }
 
-    public DespachoSucursalDTO(int sucursalId, LocalDateTime fechaDespacho, List<ProductoDespachoDTO> productos,
-            int usuarioId) {
-        this.sucursalId = sucursalId;
-        this.fechaDespacho = fechaDespacho;
-        this.productos = productos;
-        this.usuarioId = usuarioId;
+    public DespachoSucursalDTO(DespachoSucursal despacho) {
+        this.id = despacho.getId();
+        this.usuario = new UsuarioDTO(despacho.getUsuario());
+        this.estadoOperacion = despacho.getEstadoOperacion();
+        this.fechaDespacho = despacho.getFecha();
+        this.sucursal = new SucursalDTO(despacho.getSucursal());
     }
 
-    public int getSucursalId() {
-        return sucursalId;
+    public int getId() {
+        return id;
     }
 
-    public void setSucursalId(int sucursalId) {
-        this.sucursalId = sucursalId;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public SucursalDTO getSucursal() {
+        return sucursal;
+    }
+
+    public void setSucursal(SucursalDTO sucursal) {
+        this.sucursal = sucursal;
+    }
+
+    public int getEstadoOperacion() {
+        return estadoOperacion;
+    }
+
+    public void setEstadoOperacion(int estadoOperacion) {
+        this.estadoOperacion = estadoOperacion;
     }
 
     public LocalDateTime getFechaDespacho() {
@@ -38,6 +60,14 @@ public class DespachoSucursalDTO {
         this.fechaDespacho = fechaDespacho;
     }
 
+    public UsuarioDTO getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(UsuarioDTO usuario) {
+        this.usuario = usuario;
+    }
+
     public List<ProductoDespachoDTO> getProductos() {
         return productos;
     }
@@ -45,12 +75,5 @@ public class DespachoSucursalDTO {
     public void setProductos(List<ProductoDespachoDTO> productos) {
         this.productos = productos;
     }
-
-    public int getUsuarioId() {
-        return usuarioId;
-    }
-
-    public void setUsuarioId(int usuarioId) {
-        this.usuarioId = usuarioId;
-    }
+    
 }
