@@ -1,15 +1,21 @@
 package com.tailoy.inv.dto;
 
+import com.tailoy.inv.model.Sucursal;
+
 public class SucursalDTO {
     private int id;
-    private String nombre;
-    
+    private String ciudad;
+    private String direccion;
+    private String correo;
+
     public SucursalDTO() {
     }
 
-    public SucursalDTO(int id, String nombre) {
-        this.id = id;
-        this.nombre = nombre;
+    public SucursalDTO(Sucursal sucursal) {
+        this.id = sucursal.getId();
+        this.ciudad = sucursal.getCiudad();
+        this.direccion = sucursal.getDireccion();
+        this.correo = sucursal.getCorreo();
     }
 
     public int getId() {
@@ -20,13 +26,27 @@ public class SucursalDTO {
         this.id = id;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getCiudad() {
+        return ciudad;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setCiudad(String ciudad) {
+        this.ciudad = ciudad;
     }
 
-    
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }    
 }
