@@ -1,21 +1,23 @@
 package com.tailoy.inv.dto;
 
+import com.tailoy.inv.model.Usuario;
+
 public class UsuarioDTO {
     private int id;
     private String nombre;
     private String correo;
     private String contrasena;
-    private int cargoId;
+    private CargoDTO cargo;
 
     public UsuarioDTO() {
     }
 
-    public UsuarioDTO(int id, String nombre, String correo, String contrasena, int cargoId) {
-        this.id = id;
-        this.nombre = nombre;
-        this.correo = correo;
-        this.contrasena = contrasena;
-        this.cargoId = cargoId;
+    public UsuarioDTO(Usuario usuario) {
+        this.id = usuario.getId();
+        this.nombre = usuario.getNombre();
+        this.correo = usuario.getCorreo();
+        this.contrasena = usuario.getContrasena();
+        this.cargo = new CargoDTO(usuario.getCargo());
     }
 
     public int getId() {
@@ -50,11 +52,14 @@ public class UsuarioDTO {
         this.contrasena = contrasena;
     }
 
-    public int getCargoId() {
-        return cargoId;
+    public CargoDTO getCargo() {
+        return cargo;
     }
 
-    public void setCargoId(int cargoId) {
-        this.cargoId = cargoId;
+    public void setCargo(CargoDTO cargo) {
+        this.cargo = cargo;
     }
+
+    
+
 }
