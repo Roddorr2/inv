@@ -47,11 +47,11 @@ public class DespachoSucursalProdutoServiceImpl implements DespachoSucursalProdu
         List<DespachoSucursalProducto> entidades = new ArrayList<>();
 
         for (ProductoDespachoDTO dto : productosDespacho) {
-            if (dto.getProductoId() <=0 || dto.getCantidad() <= 0) {
+            if (dto.getProducto().getId() <=0 || dto.getCantidad() <= 0) {
                 throw new IllegalArgumentException("Datos inválidos para el ID y la cantidad del producto.");
             }
 
-            Producto producto = productoRepository.findById(dto.getProductoId())
+            Producto producto = productoRepository.findById(dto.getProducto().getId())
                     .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado."));
             
             DespachoSucursalProducto dsp = new DespachoSucursalProducto();
@@ -86,7 +86,7 @@ public class DespachoSucursalProdutoServiceImpl implements DespachoSucursalProdu
     @Override
     public boolean validarStockParaDespacho(List<ProductoDespachoDTO> productosDespacho) {
         for (ProductoDespachoDTO dto : productosDespacho) {
-            Producto producto = productoRepository.findById(dto.getProductoId())
+            Producto producto = productoRepository.findById(dto.getProducto().getId())
                     .orElse(null);
             if (producto == null || producto.getStock() < dto.getCantidad()) {
                 return false;

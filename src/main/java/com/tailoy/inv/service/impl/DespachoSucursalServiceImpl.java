@@ -44,9 +44,9 @@ public class DespachoSucursalServiceImpl implements DespachoSucursalService {
     @Override
     @Transactional
     public DespachoSucursal registrarDespacho(DespachoSucursalDTO dto) {
-        Sucursal sucursal = sucursalRepo.findById(dto.getSucursalId())
+        Sucursal sucursal = sucursalRepo.findById(dto.getSucursal().getId())
                 .orElseThrow(() -> new RuntimeException("Sucursal no encontrada"));
-        Usuario usuario = usuarioRepo.findById(dto.getUsuarioId())
+        Usuario usuario = usuarioRepo.findById(dto.getUsuario().getId())
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
         DespachoSucursal despacho = new DespachoSucursal();
@@ -58,7 +58,7 @@ public class DespachoSucursalServiceImpl implements DespachoSucursalService {
         DespachoSucursal despachoS = despachoSucursalRepo.save(despacho);
 
         List<DespachoSucursalProducto> productos = dto.getProductos().stream().map(p -> {
-            Producto producto = productoRepo.findById(p.getProductoId())
+            Producto producto = productoRepo.findById(p.getId())
                     .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
 
             DespachoSucursalProducto d = new DespachoSucursalProducto();
@@ -134,7 +134,7 @@ public class DespachoSucursalServiceImpl implements DespachoSucursalService {
 
             Row header3 = sheet.createRow(2);
             header3.createCell(0).setCellValue("Sucursal");
-            header3.createCell(1).setCellValue(despacho.getSucursal().getNombre());
+            header3.createCell(1).setCellValue(despacho.getSucursal().getCiudad());
 
             Row header4 = sheet.createRow(3);
             header4.createCell(0).setCellValue("Usuario");
@@ -166,5 +166,4 @@ public class DespachoSucursalServiceImpl implements DespachoSucursalService {
             throw new RuntimeException("Error al exportar a Excel", e);
         }
     }
-
 }
