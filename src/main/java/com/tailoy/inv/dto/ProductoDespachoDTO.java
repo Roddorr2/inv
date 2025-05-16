@@ -1,7 +1,11 @@
 package com.tailoy.inv.dto;
 
+import com.tailoy.inv.model.DespachoSucursalProducto;
+
 public class ProductoDespachoDTO {
-    private int productoId;
+    private int id;
+    private ProductoDTO producto;
+    private DespachoSucursalDTO despacho;
     private int cantidad;
     private double precioUnitario;
     private String observaciones;
@@ -9,19 +13,37 @@ public class ProductoDespachoDTO {
     public ProductoDespachoDTO() {
     }
 
-    public ProductoDespachoDTO(int productoId, int cantidad, double precioUnitario, String observaciones) {
-        this.productoId = productoId;
-        this.cantidad = cantidad;
-        this.precioUnitario = precioUnitario;
-        this.observaciones = observaciones;
+    public ProductoDespachoDTO(DespachoSucursalProducto despachoProducto) {
+        this.id = despachoProducto.getId();
+        this.producto = new ProductoDTO(despachoProducto.getProducto());
+        this.despacho = new DespachoSucursalDTO(despachoProducto.getDespachoSucursal());
+        this.cantidad = despachoProducto.getCantidad();
+        this.precioUnitario = despachoProducto.getPrecioUnitario();
+        this.observaciones = despachoProducto.getObservaciones();
     }
 
-    public int getProductoId() {
-        return productoId;
+    public int getId() {
+        return id;
     }
 
-    public void setProductoId(int productoId) {
-        this.productoId = productoId;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public ProductoDTO getProducto() {
+        return producto;
+    }
+
+    public void setProducto(ProductoDTO producto) {
+        this.producto = producto;
+    }
+
+    public DespachoSucursalDTO getDespacho() {
+        return despacho;
+    }
+
+    public void setDespacho(DespachoSucursalDTO despacho) {
+        this.despacho = despacho;
     }
 
     public int getCantidad() {
@@ -31,7 +53,7 @@ public class ProductoDespachoDTO {
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
     }
-    
+
     public double getPrecioUnitario() {
         return precioUnitario;
     }
@@ -39,7 +61,7 @@ public class ProductoDespachoDTO {
     public void setPrecioUnitario(double precioUnitario) {
         this.precioUnitario = precioUnitario;
     }
-        
+
     public String getObservaciones() {
         return observaciones;
     }
@@ -47,4 +69,6 @@ public class ProductoDespachoDTO {
     public void setObservaciones(String observaciones) {
         this.observaciones = observaciones;
     }
+
+    
 }
