@@ -3,49 +3,78 @@ package com.tailoy.inv.dto;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.tailoy.inv.model.OrdenCompra;
+
 public class OrdenCompraDTO {
-    private int proveedorId;
-    private LocalDateTime fechaEntregaEstimada;
-    private List<ProductoOrdenDTO> items;
-    private int usuarioId;
+    private int id;
+    private ProveedorDTO proveedor;
+    private LocalDateTime fecha;
+    private List<ProductoOrdenDTO> productos;
+    private UsuarioDTO usuario;
+    private int estadoOperacion;
 
-    public OrdenCompraDTO(int proveedorId, LocalDateTime fechaEntregaEstimada, List<ProductoOrdenDTO> items,
-        int usuarioId) {
-        this.proveedorId = proveedorId;
-        this.fechaEntregaEstimada = fechaEntregaEstimada;
-        this.items = items;
-        this.usuarioId = usuarioId;
+    public OrdenCompraDTO() {
     }
 
-    public int getProveedorId() {
-        return proveedorId;
+    public OrdenCompraDTO(OrdenCompra orden) {
+        this.id = orden.getId();
+        this.proveedor = new ProveedorDTO(orden.getProveedor());
+        this.fecha = orden.getFecha();
+        this.usuario = new UsuarioDTO(orden.getUsuario());
+        this.estadoOperacion = orden.getEstadoOperacion();
     }
 
-    public void setProveedorId(int proveedorId) {
-        this.proveedorId = proveedorId;
+    public int getId() {
+        return id;
     }
 
-    public LocalDateTime getFechaEntregaEstimada() {
-        return fechaEntregaEstimada;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setFechaEntregaEstimada(LocalDateTime fechaEntregaEstimada) {
-        this.fechaEntregaEstimada = fechaEntregaEstimada;
+    public ProveedorDTO getProveedor() {
+        return proveedor;
     }
 
-    public List<ProductoOrdenDTO> getItems() {
-        return items;
+    public void setProveedor(ProveedorDTO proveedor) {
+        this.proveedor = proveedor;
     }
 
-    public void setItems(List<ProductoOrdenDTO> items) {
-        this.items = items;
+    public LocalDateTime getFecha() {
+        return fecha;
     }
 
-    public int getUsuarioId() {
-        return usuarioId;
+    public void setFecha(LocalDateTime fecha) {
+        this.fecha = fecha;
     }
 
-    public void setUsuarioId(int usuarioId) {
-        this.usuarioId = usuarioId;
-    }    
+    public List<ProductoOrdenDTO> getProductos() {
+        return productos;
+    }
+
+    public void setProductos(List<ProductoOrdenDTO> productos) {
+        this.productos = productos;
+    }
+
+    public UsuarioDTO getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(UsuarioDTO usuario) {
+        this.usuario = usuario;
+    }
+
+    public int getEstadoOperacion() {
+        return estadoOperacion;
+    }
+
+    public void setEstadoOperacion(int estadoOperacion) {
+        this.estadoOperacion = estadoOperacion;
+    }
+
+    
+
+
+
+    
 }
