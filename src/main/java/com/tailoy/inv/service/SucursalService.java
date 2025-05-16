@@ -8,5 +8,6 @@ public interface SucursalService {
     SucursalDTO registrarSucursal(SucursalDTO sucursalDTO);
     List<SucursalDTO> listarSucursales();
     SucursalDTO obtenerSucursalPorId(int id);
+    SucursalDTO obtenerSucursalPorCorreo(String correo);
     SucursalDTO actualizarSucursal(int id, SucursalDTO sucursalDTO);
 }
