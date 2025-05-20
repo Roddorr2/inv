@@ -10,7 +10,7 @@ import com.tailoy.inv.model.MovimientoInventario;
 
 @Repository
 public interface MovimientoInventarioRepository extends JpaRepository<MovimientoInventario, Integer> {
-    List<MovimientoInventario> findByFechasBetween(LocalDateTime inicio, LocalDateTime fin);
+    List<MovimientoInventario> findByFechaBetween(LocalDateTime inicio, LocalDateTime fin);
     List<MovimientoInventario> findByUsuarioId(int usuarioId);
     List<MovimientoInventario> findByProductoId(int productoId);
 }
