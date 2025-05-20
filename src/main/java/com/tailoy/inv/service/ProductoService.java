@@ -14,6 +14,7 @@ public interface ProductoService {
     Producto obtenerPorMarca(String marca);
     List<Producto> listarProductos();
     List<Producto> listarActivos(); 
-    List<Producto> buscarPorNombreOCodigo(String texto);
+    List<Producto> buscarPorNombre(String nombre);
+    List<Producto> buscarPorCodigo(int codigo);
     boolean existeCodigoProducto(int idProducto);
 }
