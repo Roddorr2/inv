@@ -93,7 +93,7 @@ public class OrdenCompraServiceImpl implements OrdenCompraService {
 	
 	@Override
 	public List<OrdenCompra> buscarPorFechas(LocalDateTime desde, LocalDateTime hasta) {
-		return repo.findByFechaOrdenBetween(desde, hasta);
+		return repo.findByFechaBetween(desde, hasta);
 	}
 	
 	@Override

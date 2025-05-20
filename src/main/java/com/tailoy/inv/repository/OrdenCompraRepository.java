@@ -11,5 +11,5 @@ import com.tailoy.inv.model.OrdenCompra;
 @Repository
 public interface OrdenCompraRepository extends JpaRepository<OrdenCompra, Integer> {
 	List<OrdenCompra> findByEstadoOperacion(int estadoOperacion);
-	List<OrdenCompra> findByFechaOrdenBetween(LocalDateTime desde, LocalDateTime hasta);
+	List<OrdenCompra> findByFechaBetween(LocalDateTime desde, LocalDateTime hasta);
 }
