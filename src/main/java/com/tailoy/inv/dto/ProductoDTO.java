@@ -7,6 +7,7 @@ public class ProductoDTO {
     private int codigo;
     private String nombre;
     private String marca;
+    private String descripcion;
     private SubcategoriaDTO subcategoria;
     private int stock;
     private double precioUnitario;
@@ -22,6 +23,7 @@ public class ProductoDTO {
         this.codigo = producto.getCodigo();
         this.nombre = producto.getNombre();
         this.marca = producto.getMarca();
+        this.descripcion = producto.getDescripcion();
         this.subcategoria = new SubcategoriaDTO(producto.getSubcategoria());
         this.stock = producto.getStock();
         this.precioUnitario = producto.getPrecioUnitario();
@@ -61,7 +63,15 @@ public class ProductoDTO {
         this.marca = marca;
     }
 
-    public SubcategoriaDTO getSubcategoria() {
+    public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+	public SubcategoriaDTO getSubcategoria() {
         return subcategoria;
     }
 
