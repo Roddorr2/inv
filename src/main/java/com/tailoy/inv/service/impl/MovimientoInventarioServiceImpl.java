@@ -58,7 +58,7 @@ public class MovimientoInventarioServiceImpl implements MovimientoInventarioServ
 
     @Override 
     public List<MovimientoInventario> filtrarPorRangoFechas(LocalDateTime inicio, LocalDateTime fin) {
-        return repo.findByFechasBetween(inicio, fin);
+        return repo.findByFechaBetween(inicio, fin);
     }
 
     @Override
