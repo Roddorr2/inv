@@ -4,7 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Usuario {
@@ -14,7 +14,7 @@ public class Usuario {
     private String nombre;
     private String correo;
     private String contrasena;
-    @ManyToMany
+    @ManyToOne
     private Cargo cargo;
     
     public Usuario() {
