@@ -126,7 +126,7 @@ public class DespachoSucursalServiceImpl implements DespachoSucursalService {
 
             Row header1 = sheet.createRow(0);
             header1.createCell(0).setCellValue("Despacho ID");
-            header1.createCell(1).setCellValue(despacho.getId());
+            header1.createCell(1).setCellValue(String.valueOf(despacho.getId()));
 
             Row header2 = sheet.createRow(1);
             header2.createCell(0).setCellValue("Fecha");
@@ -152,9 +152,9 @@ public class DespachoSucursalServiceImpl implements DespachoSucursalService {
             int rowIdx = 6;
             for (DespachoSucursalProducto producto : productos) {
                 Row row = sheet.createRow(rowIdx++);
-                row.createCell(0).setCellValue(producto.getProducto().getId());
+                row.createCell(0).setCellValue(String.valueOf(producto.getProducto().getId()));
                 row.createCell(1).setCellValue(producto.getProducto().getNombre());
-                row.createCell(2).setCellValue(producto.getCantidad());
+                row.createCell(2).setCellValue((double) producto.getCantidad());
                 row.createCell(3).setCellValue(producto.getPrecioUnitario());
                 row.createCell(4).setCellValue(producto.getObservaciones());
             }
