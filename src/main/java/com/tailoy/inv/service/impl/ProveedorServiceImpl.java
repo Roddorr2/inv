@@ -3,6 +3,7 @@ package com.tailoy.inv.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tailoy.inv.dto.ProveedorDTO;
@@ -12,6 +13,7 @@ import com.tailoy.inv.service.ProveedorService;
 
 import jakarta.persistence.EntityNotFoundException;
 
+@Service
 public class ProveedorServiceImpl implements ProveedorService {
 	@Autowired
     private ProveedorRepository repo;
