@@ -16,16 +16,18 @@ public class Usuario {
     private String contrasena;
     @ManyToOne
     private Cargo cargo;
+    private boolean estado;
     
     public Usuario() {
     }
 
-    public Usuario(int id, String nombre, String correo, String contrasena, Cargo cargo) {
+    public Usuario(int id, String nombre, String correo, String contrasena, Cargo cargo, boolean estado) {
         this.id = id;
         this.nombre = nombre;
         this.correo = correo;
         this.contrasena = contrasena;
         this.cargo = cargo;
+        this.estado = estado;
     }
 
     public int getId() {
@@ -68,5 +70,11 @@ public class Usuario {
         this.cargo = cargo;
     }
 
-    
+	public boolean isEstado() {
+		return estado;
+	}
+
+	public void setEstado(boolean estado) {
+		this.estado = estado;
+	}    
 }
