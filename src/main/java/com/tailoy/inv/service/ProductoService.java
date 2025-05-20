@@ -8,7 +8,7 @@ import com.tailoy.inv.model.Producto;
 public interface ProductoService {
     Producto registrarProducto(ProductoDTO productoDTO);
     Producto modificarProducto(int idProducto, ProductoDTO productoDTO);
-    void cambiarEstadoProducto(int idProducto, boolean nuevoEstado, int idUsuario);
+    void cambiarEstadoProducto(int idProducto, boolean nuevoEstado);
     Producto obtenerPorId(int id);
     Producto obtenerPorCodigo(int codigo);
     Producto obtenerPorMarca(String marca);
