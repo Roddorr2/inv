@@ -15,6 +15,5 @@ public interface ProductoService {
     List<Producto> listarProductos();
     List<Producto> listarActivos(); 
     List<Producto> buscarPorNombre(String nombre);
-    List<Producto> buscarPorCodigo(int codigo);
     boolean existeCodigoProducto(int idProducto);
 }

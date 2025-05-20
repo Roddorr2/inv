@@ -123,4 +123,5 @@ public class ProductoServiceImpl implements ProductoService {
 	 public boolean existeCodigoProducto(int codigo) {
 		 return repo.existsByCodigo(codigo);
 	 }
+
 }
