@@ -120,11 +120,6 @@ public class ProductoServiceImpl implements ProductoService {
 	 }
 	 
 	 @Override
-	 public List<Producto> buscarPorCodigo(int codigo) {
-		 return repo.findByCodigo(codigo);
-	 }
-	 
-	 @Override
 	 public boolean existeCodigoProducto(int codigo) {
 		 return repo.existsByCodigo(codigo);
 	 }
