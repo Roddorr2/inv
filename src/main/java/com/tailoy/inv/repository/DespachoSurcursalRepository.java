@@ -12,6 +12,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface DespachoSurcursalRepository extends JpaRepository<DespachoSucursal, Integer> {
     List<DespachoSucursal> findByEstadoOperacion(int estadoOperacion);
-    List<DespachoSucursal> findByFechaDespachoBetween(LocalDateTime desde, LocalDateTime hasta);
+    List<DespachoSucursal> findByFechaBetween(LocalDateTime desde, LocalDateTime hasta);
     Optional<DespachoSucursal> findByIdAndEstadoOperacion(int id, int estadoOperacion);
 }

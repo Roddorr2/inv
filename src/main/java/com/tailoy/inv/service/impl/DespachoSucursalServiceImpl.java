@@ -93,7 +93,7 @@ public class DespachoSucursalServiceImpl implements DespachoSucursalService {
 
     @Override
     public List<DespachoSucursal> buscarPorFechas(LocalDateTime desde, LocalDateTime hasta) {
-        return despachoSucursalRepo.findByFechaDespachoBetween(desde, hasta);
+        return despachoSucursalRepo.findByFechaBetween(desde, hasta);
     }
 
     @Override
