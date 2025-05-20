@@ -8,6 +8,7 @@ public class UsuarioDTO {
     private String correo;
     private String contrasena;
     private CargoDTO cargo;
+    private boolean estado;
 
     public UsuarioDTO() {
     }
@@ -18,6 +19,7 @@ public class UsuarioDTO {
         this.correo = usuario.getCorreo();
         this.contrasena = usuario.getContrasena();
         this.cargo = new CargoDTO(usuario.getCargo());
+        this.estado = usuario.isEstado();
     }
 
     public int getId() {
@@ -60,6 +62,11 @@ public class UsuarioDTO {
         this.cargo = cargo;
     }
 
-    
+	public boolean isEstado() {
+		return estado;
+	}
 
+	public void setEstado(boolean estado) {
+		this.estado = estado;
+	}
 }
