@@ -13,5 +13,5 @@ public interface OrdenCompraService {
     List<OrdenCompra> listarPorEstado(int estadoOperacion);
     List<OrdenCompra> buscarPorFechas(LocalDateTime desde, LocalDateTime hasta);
     void actualizarEstado(int ordenId, int nuevoEstado);
-    byte[] exportarOrden(int ordenId, String fromato);
+    byte[] exportarOrden(int ordenId);
 }

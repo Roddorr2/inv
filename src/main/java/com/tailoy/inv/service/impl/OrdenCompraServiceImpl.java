@@ -106,7 +106,7 @@ public class OrdenCompraServiceImpl implements OrdenCompraService {
 	}
 	
 	@Override
-	public byte[] exportarOrden(int ordenId, String formato) {
+	public byte[] exportarOrden(int ordenId) {
 		OrdenCompra orden = repo.findById(ordenId)
 				.orElseThrow(() -> new IllegalArgumentException("Orden de compra no encontrada."));
 		
@@ -119,7 +119,7 @@ public class OrdenCompraServiceImpl implements OrdenCompraService {
 			
 			Row header1 = sheet.createRow(0);
 			header1.createCell(0).setCellValue("Orden ID");
-			header1.createCell(1).setCellValue(orden.getId());
+			header1.createCell(1).setCellValue(String.valueOf(orden.getId()));
 			
 			Row header2 = sheet.createRow(1);
 			header2.createCell(0).setCellValue("Fecha");
@@ -143,9 +143,9 @@ public class OrdenCompraServiceImpl implements OrdenCompraService {
 			int rowIdx = 6;
 			for (OrdenCompraProducto producto : productos) {
 				Row row = sheet.createRow(rowIdx++);
-				row.createCell(0).setCellValue(producto.getProducto().getId());
+				row.createCell(0).setCellValue(String.valueOf(producto.getProducto().getId()));
 				row.createCell(1).setCellValue(producto.getProducto().getNombre());
-				row.createCell(2).setCellValue(producto.getCantidad());
+				row.createCell(2).setCellValue((double) producto.getCantidad());
 				row.createCell(3).setCellValue(producto.getPrecioUnitario());
 				row.createCell(4).setCellValue(producto.getObservaciones());
 			}
