@@ -84,12 +84,12 @@ public class MovimientoInventarioServiceImpl implements MovimientoInventarioServ
 
             Row header = sheet.createRow(0);
             header.createCell(0).setCellValue("ID");
-            header.createCell(1).setCellValue("ID");
-            header.createCell(2).setCellValue("ID");
-            header.createCell(3).setCellValue("ID");
-            header.createCell(4).setCellValue("ID");
-            header.createCell(5).setCellValue("ID");
-            header.createCell(6).setCellValue("ID");
+            header.createCell(1).setCellValue("Producto");
+            header.createCell(2).setCellValue("Cantidad");
+            header.createCell(3).setCellValue("Tipo Movimiento");
+            header.createCell(4).setCellValue("Motivo");
+            header.createCell(5).setCellValue("Usuario");
+            header.createCell(6).setCellValue("Fecha");
 
             int rowNum = 1;
             for (MovimientoInventario mov : movimientos) {
