@@ -94,10 +94,10 @@ public class MovimientoInventarioServiceImpl implements MovimientoInventarioServ
             int rowNum = 1;
             for (MovimientoInventario mov : movimientos) {
                 Row row = sheet.createRow(rowNum++);
-                row.createCell(0).setCellValue(mov.getId());
+                row.createCell(0).setCellValue(String.valueOf(mov.getId()));
                 row.createCell(1).setCellValue(mov.getProducto().getNombre());
-                row.createCell(2).setCellValue(mov.getCantidad());
-                row.createCell(3).setCellValue(mov.getTipoMovimiento());
+                row.createCell(2).setCellValue((double) mov.getCantidad());
+                row.createCell(3).setCellValue(String.valueOf(mov.getTipoMovimiento()));
                 row.createCell(4).setCellValue(mov.getNombre());
                 row.createCell(5).setCellValue(mov.getUsuario().getNombre());
                 row.createCell(6).setCellValue(mov.getFecha().toString());
