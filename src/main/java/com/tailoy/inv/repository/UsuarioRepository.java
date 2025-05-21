@@ -11,4 +11,5 @@ import com.tailoy.inv.model.Usuario;
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     Optional<Usuario> findByNombre(String nombre);
+    Optional<Usuario> findByCorreo(String correo);
 }
