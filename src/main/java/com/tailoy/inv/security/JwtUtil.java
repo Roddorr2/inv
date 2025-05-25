@@ -11,7 +11,7 @@ import io.jsonwebtoken.security.Keys;
 
 @Component
 public class JwtUtil {
-	private final String jwtSecret = "Vh9s7T8l0P@z!xD3Jq#M1r9K4Bn$AeFz";
+	private final String jwtSecret = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbmNob3JyaWxsb3NAdGFpbG95LmNvbS5wZSIsImlhdCI6MTcxNjMwMTIzMCwiZXhwIjoxNzE2Mzg3NjMwfQ.QnAFnsJ7Br8XThkOsGrsBeFl3EL9lBfQu__OfXoV-qI";
 	private final int jwtExpirationMs = 86400000;
 	private final Key key = Keys.hmacShaKeyFor(jwtSecret.getBytes());
 	
