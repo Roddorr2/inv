@@ -31,7 +31,6 @@ public class SubcategoriaServiceImpl implements SubcategoriaService {
             throw new IllegalArgumentException("Ya existe una subcategoría con ese nombre.");
         }
 
-       
         CategoriaDTO categoriaDTO = subcategoriaDTO.getCategoria();
         Categoria categoria = categoriaRepo.findById(categoriaDTO.getId())
                 .orElseThrow(() -> new EntityNotFoundException("Categoría no encontrada con ID: " + categoriaDTO.getId()));
