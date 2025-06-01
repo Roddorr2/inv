@@ -1,15 +1,13 @@
 package com.tailoy.inv.service;
 
 import java.util.List;
-import java.util.Optional;
-
-import com.tailoy.inv.model.Categoria;
+import com.tailoy.inv.dto.CategoriaDTO;
 
 public interface CategoriaService {
-    Categoria registrarCategoria(Categoria categoria);
-    List<Categoria> listarCategorias();
-    Optional<Categoria> obtenerCategoriaPorId(int id);
-    Categoria actualizarCategoria(Categoria categoria);
+    CategoriaDTO registrarCategoria(CategoriaDTO categoriaDTO);
+    List<CategoriaDTO> listarCategorias();
+    CategoriaDTO obtenerCategoriaPorId(int id);
+    CategoriaDTO actualizarCategoria(int id, CategoriaDTO categoriaDTO);
     boolean existeCategoriaPorNombre(String nombre);
 }
 
