@@ -44,7 +44,7 @@ public class ProductoServiceImpl implements ProductoService {
 	
 	return repo.save(producto);
 	}
-	 
+	
 	@Override
 	@Transactional
 	public Producto modificarProducto(int id, ProductoDTO dto) {
