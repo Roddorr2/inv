@@ -22,16 +22,39 @@ public class ProductoServiceImpl implements ProductoService {
 	@Autowired
 	private SubcategoriaRepository subcategoriaRepo;
 	
-	 @Override
-	 @Transactional
-	 public Producto registrarProducto(ProductoDTO dto) {
-		 if (repo.existsByCodigo(dto.getCodigo())) {
-			 throw new IllegalArgumentException("Ya existe un producto con ese código");
-		 }
-		 Subcategoria subcategoria = subcategoriaRepo.findById(dto.getSubcategoria().getId())
-				 .orElseThrow(() -> new EntityNotFoundException("Subcategoría no encontrada"));
-		 
-		Producto producto = new Producto();
+	@Override
+	@Transactional
+	public Producto registrarProducto(ProductoDTO dto) {
+		if (repo.existsByCodigo(dto.getCodigo())) {
+			throw new IllegalArgumentException("Ya existe un producto con ese código");
+		}
+		Subcategoria subcategoria = subcategoriaRepo.findById(dto.getSubcategoria().getId())
+				.orElseThrow(() -> new EntityNotFoundException("Subcategoría no encontrada"));
+		
+	Producto producto = new Producto();
+	producto.setCodigo(dto.getCodigo());
+	producto.setNombre(dto.getNombre());
+	producto.setMarca(dto.getMarca());
+	producto.setDescripcion(dto.getDescripcion());
+	producto.setStock(dto.getStock());
+	producto.setPrecioUnitario(dto.getPrecioUnitario());
+	producto.setUnidadMedida(dto.getUnidadMedida());
+	producto.setEstado(true);
+	producto.setSubcategoria(subcategoria);
+	
+	return repo.save(producto);
+	}
+	 
+	@Override
+	@Transactional
+	public Producto modificarProducto(int id, ProductoDTO dto) {
+		Producto producto = repo.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException("Producto no encontrado"));
+		
+		if (producto.getCodigo() != dto.getCodigo() && repo.existsByCodigo(dto.getCodigo())) {
+			throw new IllegalArgumentException("Ya existe otro producto con ese código");
+		}
+		
 		producto.setCodigo(dto.getCodigo());
 		producto.setNombre(dto.getNombre());
 		producto.setMarca(dto.getMarca());
@@ -39,89 +62,66 @@ public class ProductoServiceImpl implements ProductoService {
 		producto.setStock(dto.getStock());
 		producto.setPrecioUnitario(dto.getPrecioUnitario());
 		producto.setUnidadMedida(dto.getUnidadMedida());
-		producto.setEstado(true);
-		producto.setSubcategoria(subcategoria);
+		
+		if (dto.getSubcategoria().getId() != producto.getSubcategoria().getId()) {
+			Subcategoria nsubcategoria = subcategoriaRepo.findById(dto.getSubcategoria().getId())
+					.orElseThrow(() -> new EntityNotFoundException("Subcategoría no encontrada"));
+			producto.setSubcategoria(nsubcategoria);
+		}
 		
 		return repo.save(producto);
-	 }
-	 
-	 @Override
-	 @Transactional
-	 public Producto modificarProducto(int id, ProductoDTO dto) {
-		 Producto producto = repo.findById(id)
-				 .orElseThrow(() -> new EntityNotFoundException("Producto no encontrado"));
-		 
-		 if (producto.getCodigo() != dto.getCodigo() && repo.existsByCodigo(dto.getCodigo())) {
-			 throw new IllegalArgumentException("Ya existe otro producto con ese código");
-		 }
-		 
-		 producto.setCodigo(dto.getCodigo());
-		 producto.setNombre(dto.getNombre());
-		 producto.setMarca(dto.getMarca());
-		 producto.setDescripcion(dto.getDescripcion());
-		 producto.setStock(dto.getStock());
-		 producto.setPrecioUnitario(dto.getPrecioUnitario());
-		 producto.setUnidadMedida(dto.getUnidadMedida());
-		 
-		 if (dto.getSubcategoria().getId() != producto.getSubcategoria().getId()) {
-			 Subcategoria nsubcategoria = subcategoriaRepo.findById(dto.getSubcategoria().getId())
-					 .orElseThrow(() -> new EntityNotFoundException("Subcategoría no encontrada"));
-			 producto.setSubcategoria(nsubcategoria);
-		 }
-		 
-		 return repo.save(producto);
-	 }
-	 
-	 @Override
-	 @Transactional
-	 public void cambiarEstadoProducto(int id, boolean nuevoEstado) {
-		 Producto producto = repo.findById(id)
-				 .orElseThrow(() -> new EntityNotFoundException("Producto no encontrado"));
-		 
-		 if (producto.isEstado() == nuevoEstado) {
-			 throw new IllegalArgumentException("El producto ya tiene ese estado.");
-		 }
-		 
-		 producto.setEstado(nuevoEstado);
-		 repo.save(producto);
-	 }
-	 
-	 @Override
-	 public Producto obtenerPorId(int id) {
-		 return repo.findById(id)
-				 .orElseThrow(() -> new EntityNotFoundException("Producto no encontrado"));
-	 }
-	 
-	 @Override
-	 public Producto  obtenerPorCodigo(int codigo) {
-		 return repo.findByCodigo(codigo)
-				 .orElseThrow(() -> new EntityNotFoundException("Producto no encontrado"));
-	 }
-	 
-	 @Override
-	 public Producto obtenerPorMarca(String marca) {
-		 return repo.findByMarca(marca)
-				 .orElseThrow(() -> new EntityNotFoundException("Producto no encontrado."));
-	 }
-	 
-	 @Override
-	 public List<Producto> listarProductos() {
-		 return repo.findAll();
-	 }
-	 
-	 @Override
-	 public List<Producto> listarActivos() {
-		 return repo.findByEstadoTrue();
-	 }
-	 
-	 @Override
-	 public List<Producto> buscarPorNombre(String nombre) {
-		 return repo.findByNombre(nombre);
-	 }
-	 
-	 @Override
-	 public boolean existeCodigoProducto(int codigo) {
-		 return repo.existsByCodigo(codigo);
-	 }
+	}
+	
+	@Override
+	@Transactional
+	public void cambiarEstadoProducto(int id, boolean nuevoEstado) {
+		Producto producto = repo.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException("Producto no encontrado"));
+		
+		if (producto.isEstado() == nuevoEstado) {
+			throw new IllegalArgumentException("El producto ya tiene ese estado.");
+		}
+		
+		producto.setEstado(nuevoEstado);
+		repo.save(producto);
+	}
+	
+	@Override
+	public Producto obtenerPorId(int id) {
+		return repo.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException("Producto no encontrado"));
+	}
+	
+	@Override
+	public Producto  obtenerPorCodigo(int codigo) {
+		return repo.findByCodigo(codigo)
+				.orElseThrow(() -> new EntityNotFoundException("Producto no encontrado"));
+	}
+	
+	@Override
+	public Producto obtenerPorMarca(String marca) {
+		return repo.findByMarca(marca)
+				.orElseThrow(() -> new EntityNotFoundException("Producto no encontrado."));
+	}
+	
+	@Override
+	public List<Producto> listarProductos() {
+		return repo.findAll();
+	}
+	
+	@Override
+	public List<Producto> listarActivos() {
+		return repo.findByEstadoTrue();
+	}
+	
+	@Override
+	public List<Producto> buscarPorNombre(String nombre) {
+		return repo.findByNombre(nombre);
+	}
+	
+	@Override
+	public boolean existeCodigoProducto(int codigo) {
+		return repo.existsByCodigo(codigo);
+	}
 
 }
