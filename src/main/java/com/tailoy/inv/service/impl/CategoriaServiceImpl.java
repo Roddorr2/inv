@@ -1,14 +1,17 @@
 package com.tailoy.inv.service.impl;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.tailoy.inv.dto.CategoriaDTO;
 import com.tailoy.inv.model.Categoria;
 import com.tailoy.inv.repository.CategoriaRepository;
 import com.tailoy.inv.service.CategoriaService;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class CategoriaServiceImpl implements CategoriaService {
@@ -16,34 +19,46 @@ public class CategoriaServiceImpl implements CategoriaService {
     private CategoriaRepository categoriaRepository;
 
     @Override
-    public Categoria registrarCategoria(Categoria categoria) {
-        if (categoria == null || categoria.getNombre() == null || categoria.getNombre().trim().isEmpty()) {
+    public CategoriaDTO registrarCategoria(CategoriaDTO categoriaDTO) {
+        if (categoriaDTO == null || categoriaDTO.getNombre() == null || categoriaDTO.getNombre().trim().isEmpty()) {
             throw new IllegalArgumentException("El nombre de la categoría es obligatorio.");
         }
 
-        if (existeCategoriaPorNombre(categoria.getNombre())) {
+        if (existeCategoriaPorNombre(categoriaDTO.getNombre())) {
             throw new IllegalArgumentException("Ya existe una categoría con ese nombre");
         }
 
-        return categoriaRepository.save(categoria);
+        Categoria categoria = new Categoria();
+        categoria.setNombre(categoriaDTO.getNombre());
+
+        Categoria guardada = categoriaRepository.save(categoria);
+        return new CategoriaDTO(guardada);
     }
 
     @Override
-    public List<Categoria> listarCategorias() {
-        return categoriaRepository.findAll();
+    public List<CategoriaDTO> listarCategorias() {
+        return categoriaRepository.findAll().stream().map(CategoriaDTO::new).collect(Collectors.toList());
     }
 
     @Override
-    public Optional<Categoria> obtenerCategoriaPorId(int id) {
-        return categoriaRepository.findById(id);
+    public CategoriaDTO obtenerCategoriaPorId(int id) {
+        Categoria categoria = categoriaRepository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("La categoría no existe"));
+            return new CategoriaDTO(categoria);
     }
 
     @Override
-    public Categoria actualizarCategoria(Categoria categoria) {
-        if (categoria == null || categoria.getNombre() == null || categoria.getNombre().trim().isEmpty()) {
+    public CategoriaDTO actualizarCategoria(int id, CategoriaDTO categoriaDTO) {
+        if (categoriaDTO == null || categoriaDTO.getNombre() == null || categoriaDTO.getNombre().trim().isEmpty()) {
             throw new IllegalArgumentException("El ID de la categoría es obligatorio.");
         }
-        return categoriaRepository.save(categoria);
+        Categoria categoria = categoriaRepository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("La categoría no existe."));        
+
+        categoria.setNombre(categoriaDTO.getNombre());
+
+        Categoria actualizada = categoriaRepository.save(categoria);
+        return new CategoriaDTO(actualizada);
     }
 
     @Override
