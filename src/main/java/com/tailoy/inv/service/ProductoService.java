@@ -10,10 +10,8 @@ public interface ProductoService {
     Producto modificarProducto(int idProducto, ProductoDTO productoDTO);
     void cambiarEstadoProducto(int idProducto, boolean nuevoEstado);
     Producto obtenerPorId(int id);
-    Producto obtenerPorCodigo(int codigo);
-    Producto obtenerPorMarca(String marca);
     List<Producto> listarProductos();
     List<Producto> listarActivos(); 
-    List<Producto> buscarPorNombre(String nombre);
+    List<Producto> buscarPorNombreOMarcaOCodigo(String q);
     boolean existeCodigoProducto(int idProducto);
 }

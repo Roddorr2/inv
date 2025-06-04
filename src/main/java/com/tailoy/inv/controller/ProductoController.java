@@ -52,23 +52,16 @@ public class ProductoController {
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Producto> obtenerPorId(@PathVariable int id) {
-        Producto producto = productoService.obtenerPorCodigo(id);
+        Producto producto = productoService.obtenerPorId(id);
         return ResponseEntity.ok(producto);
     }
-
-    @GetMapping("/codigo/{codigo}")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Producto> obtenerPorCodigo(@PathVariable int codigo) {
-        Producto producto = productoService.obtenerPorCodigo(codigo);
-        return ResponseEntity.ok(producto);
+    
+    @GetMapping("/buscar")
+    public ResponseEntity<List<Producto>> buscarProductos(@RequestParam("q") String q) {
+    	List<Producto> resultados = productoService.buscarPorNombreOMarcaOCodigo(q);
+    	return ResponseEntity.ok(resultados);
     }
-
-    @GetMapping("/marca/{marca}")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Producto> obtenerPorMarca(@PathVariable String marca) {
-        Producto producto = productoService.obtenerPorMarca(marca);
-        return ResponseEntity.ok(producto);
-    }
+    
 
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
@@ -82,13 +75,6 @@ public class ProductoController {
     public ResponseEntity<List<Producto>> listarProductosActivos() {
         List<Producto> activos = productoService.listarActivos();
         return ResponseEntity.ok(activos);
-    }
-
-    @GetMapping("/nombre/{nombre}")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<Producto>> buscarPorNombre(@PathVariable String nombre) {
-        List<Producto> productos = productoService.buscarPorNombre(nombre);
-        return ResponseEntity.ok(productos);
     }
 
     @GetMapping("/existe")

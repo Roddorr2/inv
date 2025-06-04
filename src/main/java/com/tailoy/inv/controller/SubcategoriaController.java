@@ -35,7 +35,7 @@ public class SubcategoriaController {
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'GERENTE_DE_COMPRAS', 'ALMACENERO')")
     public ResponseEntity<List<SubcategoriaDTO>> listarSubcategorias() {
         return ResponseEntity.ok(subcategoriaService.listarSubcategorias());
     }
