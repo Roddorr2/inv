@@ -8,4 +8,7 @@ public interface SubcategoriaService {
     SubcategoriaDTO registrarSubcategoria(SubcategoriaDTO subcategoriaDTO);
     List<SubcategoriaDTO> listarSubcategorias();
     boolean existeSubcategoriaPorNombre(String nombre);
+    SubcategoriaDTO actualizarSubcategoria(int id, SubcategoriaDTO subcategoriaDTO);
+    List<SubcategoriaDTO> listarSubcategoriasPorCategoria(int id);
+    List<SubcategoriaDTO> buscarPorNombre(String nombre);
 }

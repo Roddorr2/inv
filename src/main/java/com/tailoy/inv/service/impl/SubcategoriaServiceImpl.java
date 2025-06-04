@@ -52,6 +52,41 @@ public class SubcategoriaServiceImpl implements SubcategoriaService {
     public boolean existeSubcategoriaPorNombre(String nombre) {
         return repo.existsByNombre(nombre.trim());
     }
-	
+
+    @Override
+    @Transactional
+    public SubcategoriaDTO actualizarSubcategoria(int id, SubcategoriaDTO subcategoriaDTO) {
+        Subcategoria existente = repo.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Subcategoría no encontrada con ID: " + id));
+
+        if (!existente.getNombre().equalsIgnoreCase(subcategoriaDTO.getNombre())
+                && repo.existsByNombre(subcategoriaDTO.getNombre())) {
+            throw new IllegalArgumentException("Ya existe otra subcategoría con ese nombre.");
+        }
+
+        Categoria nuevaCategoria = categoriaRepo.findById(subcategoriaDTO.getCategoria().getId())
+                .orElseThrow(() -> new EntityNotFoundException("Categoría no encontrada con ID: " + subcategoriaDTO.getCategoria().getId()));
+
+        existente.setNombre(subcategoriaDTO.getNombre());
+        existente.setCategoria(nuevaCategoria);
+
+        Subcategoria actualizada = repo.save(existente);
+        return new SubcategoriaDTO(actualizada);
+    }
+
+    @Override
+    public List<SubcategoriaDTO> listarSubcategoriasPorCategoria(int idCategoria) {
+        Categoria categoria = categoriaRepo.findById(idCategoria)
+                .orElseThrow(() -> new EntityNotFoundException("Categoría no encontrada con ID: " + idCategoria));
+
+        List<SubcategoriaDTO> subcategorias = repo.findByCategoria(categoria);
+        return subcategorias;
+    }
+
+    @Override
+    public List<SubcategoriaDTO> buscarPorNombre(String nombre) {
+        List<SubcategoriaDTO> subcategorias = repo.findByNombreContainingIgnoreCase(nombre.trim());
+        return subcategorias;
+    }
 
 }
