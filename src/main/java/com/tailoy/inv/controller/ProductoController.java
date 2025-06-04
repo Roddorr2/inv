@@ -42,7 +42,7 @@ public class ProductoController {
         return ResponseEntity.ok(actualizado);
     }
 
-    @PatchMapping("/{id}/estado")
+    @PatchMapping("/{id}/estado") 
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> cambiarEstado(@PathVariable int id, @RequestParam boolean estado) {
         productoService.cambiarEstadoProducto(id, estado);
