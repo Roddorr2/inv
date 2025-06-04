@@ -93,17 +93,14 @@ public class ProductoServiceImpl implements ProductoService {
 	}
 	
 	@Override
-	public Producto  obtenerPorCodigo(int codigo) {
-		return repo.findByCodigo(codigo)
-				.orElseThrow(() -> new EntityNotFoundException("Producto no encontrado"));
+	public List<Producto> buscarPorNombreOMarcaOCodigo(String q) {
+		try {
+			int codigo = Integer.parseInt(q);
+	        return repo.findByNombreContainingIgnoreCaseOrMarcaContainingIgnoreCaseOrCodigo(String.valueOf(codigo), q, codigo);
+		} catch (NumberFormatException e) {
+	        return repo.findByNombreContainingIgnoreCaseOrMarcaContainingIgnoreCase(q, q);
+		}
 	}
-	
-	@Override
-	public Producto obtenerPorMarca(String marca) {
-		return repo.findByMarca(marca)
-				.orElseThrow(() -> new EntityNotFoundException("Producto no encontrado."));
-	}
-	
 	@Override
 	public List<Producto> listarProductos() {
 		return repo.findAll();
@@ -112,11 +109,6 @@ public class ProductoServiceImpl implements ProductoService {
 	@Override
 	public List<Producto> listarActivos() {
 		return repo.findByEstadoTrue();
-	}
-	
-	@Override
-	public List<Producto> buscarPorNombre(String nombre) {
-		return repo.findByNombre(nombre);
 	}
 	
 	@Override
