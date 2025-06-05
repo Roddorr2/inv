@@ -65,4 +65,10 @@ public class CategoriaServiceImpl implements CategoriaService {
     public boolean existeCategoriaPorNombre(String nombre) {
         return categoriaRepository.existsByNombre(nombre.trim());
     }
+    
+    @Override
+    public List<CategoriaDTO> buscarPorNombre(String nombre) {
+    	List<CategoriaDTO> categorias = categoriaRepository.findByNombreContainingIgnoreCase(nombre);
+    	return categorias;
+    }
 }

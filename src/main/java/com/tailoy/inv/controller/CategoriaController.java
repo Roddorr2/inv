@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tailoy.inv.dto.CategoriaDTO;
+import com.tailoy.inv.dto.SubcategoriaDTO;
 import com.tailoy.inv.service.impl.CategoriaServiceImpl;
 
 @RestController
@@ -58,6 +59,12 @@ public class CategoriaController {
     public ResponseEntity<Boolean> existePorNombre(@RequestParam String nombre) {
         boolean existe = categoriaService.existeCategoriaPorNombre(nombre);;
         return ResponseEntity.ok(existe);
+    }
+    
+    @GetMapping("/buscar")
+    @PreAuthorize("hasAnyRole('ADMIN', 'GERENTE_DE_COMPRAS', 'ALMACENERO')")
+    public ResponseEntity<List<CategoriaDTO>> buscarPorNombre(@RequestParam String nombre) {
+        return ResponseEntity.ok(categoriaService.buscarPorNombre(nombre));
     }
 
 }

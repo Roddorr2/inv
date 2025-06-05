@@ -9,5 +9,6 @@ public interface CategoriaService {
     CategoriaDTO obtenerCategoriaPorId(int id);
     CategoriaDTO actualizarCategoria(int id, CategoriaDTO categoriaDTO);
     boolean existeCategoriaPorNombre(String nombre);
+    List<CategoriaDTO> buscarPorNombre(String nombre);
 }
 
