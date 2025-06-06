@@ -18,12 +18,10 @@ import com.tailoy.inv.model.OrdenCompra;
 import com.tailoy.inv.model.OrdenCompraProducto;
 import com.tailoy.inv.model.Producto;
 import com.tailoy.inv.model.Proveedor;
-import com.tailoy.inv.model.Usuario;
 import com.tailoy.inv.repository.OrdenCompraProductoRepository;
 import com.tailoy.inv.repository.OrdenCompraRepository;
 import com.tailoy.inv.repository.ProductoRepository;
 import com.tailoy.inv.repository.ProveedorRepository;
-import com.tailoy.inv.repository.UsuarioRepository;
 import com.tailoy.inv.service.OrdenCompraService;
 
 import jakarta.transaction.Transactional;
@@ -38,21 +36,16 @@ public class OrdenCompraServiceImpl implements OrdenCompraService {
 	private ProductoRepository productoRepo;
 	@Autowired
 	private ProveedorRepository proveedorRepo;
-	@Autowired
-	private UsuarioRepository usuarioRepo;
 	
 	@Override
 	@Transactional
 	public OrdenCompra registrarOrdenCompra(OrdenCompraDTO dto) {
 		Proveedor proveedor = proveedorRepo.findById(dto.getProveedor().getId())
 				.orElseThrow(() -> new RuntimeException("Proveedor no encontrado."));
-		Usuario usuario = usuarioRepo.findById(dto.getUsuario().getId())
-				.orElseThrow(() -> new RuntimeException("Usuario no encontrado."));
 		
 		OrdenCompra orden = new OrdenCompra();
 		orden.setProveedor(proveedor);
 		orden.setFecha(dto.getFecha());
-		orden.setUsuario(usuario);
 		orden.setEstadoOperacion(1);
 		
 		OrdenCompra ordenS = repo.save(orden);
@@ -128,10 +121,6 @@ public class OrdenCompraServiceImpl implements OrdenCompraService {
 			Row header3 = sheet.createRow(2);
 			header3.createCell(0).setCellValue("Proveedor");
 			header3.createCell(1).setCellValue(orden.getProveedor().getNombre());
-			
-			Row header4 = sheet.createRow(3);
-			header4.createCell(0).setCellValue("Usuario");
-			header4.createCell(1).setCellValue(orden.getUsuario().getNombre());
 			
 			Row header = sheet.createRow(5);
 			header.createCell(0).setCellValue("Producto ID");

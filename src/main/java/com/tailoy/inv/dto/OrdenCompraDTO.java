@@ -10,7 +10,6 @@ public class OrdenCompraDTO {
     private ProveedorDTO proveedor;
     private LocalDateTime fecha;
     private List<ProductoOrdenDTO> productos;
-    private UsuarioDTO usuario;
     private int estadoOperacion;
 
     public OrdenCompraDTO() {
@@ -20,7 +19,6 @@ public class OrdenCompraDTO {
         this.id = orden.getId();
         this.proveedor = new ProveedorDTO(orden.getProveedor());
         this.fecha = orden.getFecha();
-        this.usuario = new UsuarioDTO(orden.getUsuario());
         this.estadoOperacion = orden.getEstadoOperacion();
     }
 
@@ -56,14 +54,6 @@ public class OrdenCompraDTO {
         this.productos = productos;
     }
 
-    public UsuarioDTO getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(UsuarioDTO usuario) {
-        this.usuario = usuario;
-    }
-
     public int getEstadoOperacion() {
         return estadoOperacion;
     }
@@ -71,10 +61,5 @@ public class OrdenCompraDTO {
     public void setEstadoOperacion(int estadoOperacion) {
         this.estadoOperacion = estadoOperacion;
     }
-
-    
-
-
-
     
 }

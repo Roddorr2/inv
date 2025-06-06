@@ -9,7 +9,6 @@ import com.tailoy.inv.model.DespachoSucursal;
 
 public class DespachoSucursalDTO {
     private int id;
-    private UsuarioDTO usuario;
     private int estadoOperacion;
     private LocalDateTime fechaDespacho;
     private SucursalDTO sucursal;
@@ -22,7 +21,6 @@ public class DespachoSucursalDTO {
 
     public DespachoSucursalDTO(DespachoSucursal despacho) {
         this.id = despacho.getId();
-        this.usuario = new UsuarioDTO(despacho.getUsuario());
         this.estadoOperacion = despacho.getEstadoOperacion();
         this.fechaDespacho = despacho.getFecha();
         this.sucursal = new SucursalDTO(despacho.getSucursal());
@@ -58,14 +56,6 @@ public class DespachoSucursalDTO {
 
     public void setFechaDespacho(LocalDateTime fechaDespacho) {
         this.fechaDespacho = fechaDespacho;
-    }
-
-    public UsuarioDTO getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(UsuarioDTO usuario) {
-        this.usuario = usuario;
     }
 
     public List<ProductoDespachoDTO> getProductos() {

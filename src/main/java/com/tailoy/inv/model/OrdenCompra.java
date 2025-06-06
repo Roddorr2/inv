@@ -18,19 +18,15 @@ public class OrdenCompra {
     @JoinColumn(name = "proveedorId", nullable = false)
     private Proveedor proveedor;
     private LocalDateTime fecha;
-    @ManyToOne
-    @JoinColumn(name = "productoId", nullable = false)
-    private Usuario usuario;
     private int estadoOperacion;
     
     public OrdenCompra() {
     }
 
-    public OrdenCompra(int id, Proveedor proveedor, LocalDateTime fecha, Usuario usuario, int estadoOperacion) {
+    public OrdenCompra(int id, Proveedor proveedor, LocalDateTime fecha, int estadoOperacion) {
         this.id = id;
         this.proveedor = proveedor;
         this.fecha = fecha;
-        this.usuario = usuario;
         this.estadoOperacion = estadoOperacion;
     }
 
@@ -56,14 +52,6 @@ public class OrdenCompra {
 
     public void setFecha(LocalDateTime fecha) {
         this.fecha = fecha;
-    }
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
     }
 
     public int getEstadoOperacion() {
