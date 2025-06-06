@@ -20,12 +20,10 @@ import com.tailoy.inv.model.DespachoSucursal;
 import com.tailoy.inv.model.DespachoSucursalProducto;
 import com.tailoy.inv.model.Producto;
 import com.tailoy.inv.model.Sucursal;
-import com.tailoy.inv.model.Usuario;
 import com.tailoy.inv.repository.DespachoSucursalProductoRepository;
 import com.tailoy.inv.repository.DespachoSurcursalRepository;
 import com.tailoy.inv.repository.ProductoRepository;
 import com.tailoy.inv.repository.SucursalRepository;
-import com.tailoy.inv.repository.UsuarioRepository;
 import com.tailoy.inv.service.DespachoSucursalService;
 
 @Service
@@ -38,21 +36,16 @@ public class DespachoSucursalServiceImpl implements DespachoSucursalService {
     private ProductoRepository productoRepo;
     @Autowired
     private SucursalRepository sucursalRepo;
-    @Autowired
-    private UsuarioRepository usuarioRepo;
 
     @Override
     @Transactional
     public DespachoSucursal registrarDespacho(DespachoSucursalDTO dto) {
         Sucursal sucursal = sucursalRepo.findById(dto.getSucursal().getId())
                 .orElseThrow(() -> new RuntimeException("Sucursal no encontrada"));
-        Usuario usuario = usuarioRepo.findById(dto.getUsuario().getId())
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
         DespachoSucursal despacho = new DespachoSucursal();
         despacho.setSucursal(sucursal);
         despacho.setFecha(dto.getFechaDespacho());
-        despacho.setUsuario(usuario);
         despacho.setEstadoOperacion(1);
 
         DespachoSucursal despachoS = despachoSucursalRepo.save(despacho);
@@ -136,10 +129,6 @@ public class DespachoSucursalServiceImpl implements DespachoSucursalService {
             header3.createCell(0).setCellValue("Sucursal");
             header3.createCell(1).setCellValue(despacho.getSucursal().getCiudad());
 
-            Row header4 = sheet.createRow(3);
-            header4.createCell(0).setCellValue("Usuario");
-            header4.createCell(1).setCellValue(despacho.getUsuario().getNombre());
-
             // Cabecera de productos
             Row header = sheet.createRow(5);
             header.createCell(0).setCellValue("Producto ID");
@@ -163,7 +152,7 @@ public class DespachoSucursalServiceImpl implements DespachoSucursalService {
             return out.toByteArray();
 
         } catch (IOException e) {
-            throw new RuntimeException("Error al exportar a Excel", e);
+            throw new RuntimeException("Error al exportar a Excel:" + e);
         }
     }
 }
