@@ -17,20 +17,16 @@ public class DespachoSucursal {
     private int estadoOperacion;
     private LocalDateTime fecha;
     @ManyToOne
-    @JoinColumn(name = "usuarioId", nullable = false)
-    private Usuario usuario;
-    @ManyToOne
     @JoinColumn(name = "sucursalId", nullable = false)
     private Sucursal sucursal;
     
     public DespachoSucursal() {
     }
 
-    public DespachoSucursal(int id, int estadoOperacion, LocalDateTime fecha, Usuario usuario, Sucursal sucursal) {
+    public DespachoSucursal(int id, int estadoOperacion, LocalDateTime fecha, Sucursal sucursal) {
         this.id = id;
         this.estadoOperacion = estadoOperacion;
         this.fecha = fecha;
-        this.usuario = usuario;
         this.sucursal = sucursal;
     }
 
@@ -56,14 +52,6 @@ public class DespachoSucursal {
 
     public void setFecha(LocalDateTime fecha) {
         this.fecha = fecha;
-    }
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
     }
 
     public Sucursal getSucursal() {
