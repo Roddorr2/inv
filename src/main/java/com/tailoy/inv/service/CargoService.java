@@ -11,4 +11,5 @@ public interface CargoService {
     Optional<Cargo> obtenerCargosPorId(int id);
     Cargo actualizarCargo(Cargo cargo);
     boolean existeCargoPorNombre(String nombre);
+    List<Cargo> buscarCargoPorNombre(String nombre);
 }
