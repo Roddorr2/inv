@@ -10,5 +10,6 @@ public interface SucursalService {
     SucursalDTO obtenerSucursalPorId(int id);
     List<SucursalDTO> obtenerSucursalPorCorreo(String correo);
     SucursalDTO actualizarSucursal(int id, SucursalDTO sucursalDTO);
-    List<SucursalDTO> buscarPorCiudadOCorreo(String q);
+    List<SucursalDTO> buscarPorDireccionOCorreo(String q);
+    boolean existeSucursalPorCorreo(String correo);
 }
