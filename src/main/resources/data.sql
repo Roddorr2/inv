@@ -253,3 +253,4 @@ insert into sucursal(ciudad, direccion, correo) values('SURQUILLO', 'Jr. Dante 8
 insert into sucursal(ciudad, direccion, correo) values('VENTANILLA', 'Mz. C2 Lt. 14 Ex Zona Comercial Ventanilla', 'tlventanilla@tailoy.com.pe');
 insert into sucursal(ciudad, direccion, correo) values('VILLA EL SALVADOR', 'Parque Industrial De Villa El Salvador, Mz K2, Lt 5', 'tlvillaelsalvador@tailoy.com.pe');
 insert into sucursal(ciudad, direccion, correo) values('VILLA EL SALVADOR', 'Av. Revolución Cd. 18 Mz. J Lt. 21 Sector 2 Gr. 9', 'tdvesalvador@tailoy.com.pe');
+      
