@@ -25,22 +25,41 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 	}
 	
 	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-		final String header = request.getHeader("Authorization");
-		if (header != null && header.startsWith("Bearer ")) {
-			String token = header.substring(7);
-			String username = jwtUtil.getUsernameFromToken(token);
-			
-			if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-				UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-				if (jwtUtil.validateToken(token)) {
-					UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-					SecurityContextHolder.getContext().setAuthentication(auth);
-				}
-			}
-		}
-		filterChain.doFilter(request, response);
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+	        throws ServletException, IOException {
+
+	    final String header = request.getHeader("Authorization");
+
+	    if (header != null && header.startsWith("Bearer ")) {
+	        System.out.println("Authorization Header: " + header);
+	        String token = header.substring(7);
+
+	        try {
+	            System.out.println("MENSAJE DE PRUEBA PARA VER EL TOKEN RECIBIDO: " + token);
+
+	            // 🔥 Este es el punto crítico
+	            String username = jwtUtil.getUsernameFromToken(token);
+
+	            System.out.println("Usuario extraído del token: " + username);
+
+	            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+	                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+
+	                if (jwtUtil.validateToken(token)) {
+	                    UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
+	                            userDetails, null, userDetails.getAuthorities());
+	                    SecurityContextHolder.getContext().setAuthentication(auth);
+	                }
+	            }
+	        } catch (Exception e) {
+	            System.out.println("⚠️ Error al procesar token: " + e.getMessage());
+	            e.printStackTrace();
+	        }
+	    }
+
+	    filterChain.doFilter(request, response);
 	}
+
 	
 	
 }
