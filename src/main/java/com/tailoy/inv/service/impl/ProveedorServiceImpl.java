@@ -85,4 +85,20 @@ public class ProveedorServiceImpl implements ProveedorService {
 		repo.save(proveedor);
 	}
 	
+	@Override
+    public List<Proveedor> buscarPorNombreORucOTelefonoODireccion(String q) {
+		return repo.findByNombreOrRucOrTelefonoOrDireccionContainingIgnoreCase(q);
+	}
+
+	@Override
+    public boolean existeProveedoroPorRuc(String ruc) {
+        return repo.existsByRuc(ruc.trim());
+    }
+	
+	@Override
+	public boolean existeProveedorPorNombre(String nombre) {
+		return repo.existsByNombre(nombre.trim());
+	}
+
+	
 }

@@ -12,4 +12,7 @@ public interface ProveedorService {
     Proveedor obtenerPorRuc(String ruc);
     Proveedor modificarProveedor(int idProveedor, ProveedorDTO proveedorDTO);
     void cambiarEstadoProveedor(int idProveedor, boolean nuevoEstado);
+    List<Proveedor> buscarPorNombreORucOTelefonoODireccion(String q);
+    boolean existeProveedoroPorRuc(String ruc);
+    boolean existeProveedorPorNombre(String nombre);
 }
