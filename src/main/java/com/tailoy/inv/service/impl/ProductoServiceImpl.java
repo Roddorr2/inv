@@ -98,9 +98,10 @@ public class ProductoServiceImpl implements ProductoService {
 			int codigo = Integer.parseInt(q);
 	        return repo.findByNombreContainingIgnoreCaseOrMarcaContainingIgnoreCaseOrCodigo(String.valueOf(codigo), q, codigo);
 		} catch (NumberFormatException e) {
-	        return repo.findByNombreContainingIgnoreCaseOrMarcaContainingIgnoreCase(q, q);
+	        return repo.findByNombreOrMarcaContainingIgnoreCase(q);
 		}
 	}
+	
 	@Override
 	public List<Producto> listarProductos() {
 		return repo.findAll();
