@@ -17,7 +17,7 @@ import com.tailoy.inv.service.UsuarioService;
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
-public class UsuarioServiceImpl implements UsuarioService{
+public class UsuarioServiceImpl implements UsuarioService {
 	@Autowired
     private UsuarioRepository repo;
 
@@ -83,5 +83,30 @@ public class UsuarioServiceImpl implements UsuarioService{
 
         usuario.setEstado(estado);
         repo.save(usuario);
+    }
+    
+    @Override
+    public List<UsuarioDTO> buscarPorNombreOCorreo(String q) {
+        List<UsuarioDTO> usuarios = repo.findByNombreOrCorreoContainingIgnoreCase(q.trim());
+        return usuarios;
+    }
+    
+    @Override
+    public boolean existePorNombre(String nombre) {
+    	return repo.existsByNombre(nombre);
+    }
+
+    @Override
+    public boolean existePorCorreo(String correo) {
+    	return repo.existsByCorreo(correo);
+    }
+    
+    @Override
+    public List<UsuarioDTO> listarUsuarioPorCargo(int idCargo)  {
+    	Cargo cargo = cargoRepository.findById(idCargo)
+                .orElseThrow(() -> new EntityNotFoundException("Cargo no encontrad con ID: " + idCargo));
+
+        List<UsuarioDTO> usuarios = repo.findByCargo(cargo);
+        return usuarios;
     }
 }
