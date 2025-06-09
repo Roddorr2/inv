@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tailoy.inv.dto.CategoriaDTO;
-import com.tailoy.inv.dto.SubcategoriaDTO;
 import com.tailoy.inv.service.impl.CategoriaServiceImpl;
 
 @RestController

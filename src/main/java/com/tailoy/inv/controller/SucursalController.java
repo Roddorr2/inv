@@ -8,16 +8,16 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import com.tailoy.inv.dto.SucursalDTO;
-import com.tailoy.inv.service.SucursalService;
+import com.tailoy.inv.service.impl.SucursalServiceImpl;
 
 @RestController
 @RequestMapping("/api/sucursales")
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class SucursalController {
 
-    private final SucursalService sucursalService;
+    private final SucursalServiceImpl sucursalService;
 
-    public SucursalController(SucursalService sucursalService) {
+    public SucursalController(SucursalServiceImpl sucursalService) {
         this.sucursalService = sucursalService;
     }
 
