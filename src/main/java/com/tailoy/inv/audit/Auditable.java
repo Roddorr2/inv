@@ -9,6 +9,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Auditable {
     String accion();
-    int tipo();
-    int modulo();
+    TipoAccionEnum tipo();
+    ModuloEnum modulo();
 }

@@ -42,8 +42,8 @@ public class AuditoriaAspect {
 
         HistorialAccion historial = new HistorialAccion();
         historial.setFecha(LocalDateTime.now());
-        historial.setTipoAccion(auditable.tipo());
-        historial.setModulo(auditable.modulo());
+        historial.setTipoAccion(auditable.tipo().getCodigo());
+        historial.setModulo(auditable.modulo().getCodigo());
         historial.setDescripcion(auditable.accion() + " - " + detalles);
         historial.setUsuario(usuario);
 
