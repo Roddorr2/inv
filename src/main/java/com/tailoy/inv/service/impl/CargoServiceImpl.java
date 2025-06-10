@@ -6,6 +6,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.tailoy.inv.audit.Auditable;
+import com.tailoy.inv.audit.ModuloEnum;
+import com.tailoy.inv.audit.TipoAccionEnum;
 import com.tailoy.inv.model.Cargo;
 import com.tailoy.inv.repository.CargoRepository;
 import com.tailoy.inv.service.CargoService;
@@ -15,6 +18,11 @@ public class CargoServiceImpl implements CargoService {
     @Autowired
     private CargoRepository cargoRepository;
     
+    @Auditable(
+		accion = "Registro de CARGOS", 
+		tipo = TipoAccionEnum.REGISTRO, 
+		modulo = ModuloEnum.CARGO
+		)
     @Override
     public Cargo registrarCargo(Cargo cargo) {
         if (cargo == null || cargo.getNombre() == null || cargo.getNombre().trim().isEmpty()) {
@@ -38,6 +46,11 @@ public class CargoServiceImpl implements CargoService {
         return cargoRepository.findById(id);
     }
 
+    @Auditable(
+		accion = "Modificación de cargos", 
+		tipo = TipoAccionEnum.MODIFICACION, 
+		modulo = ModuloEnum.CARGO
+		)
     @Override
     public Cargo actualizarCargo(Cargo cargo) {
         return cargoRepository.save(cargo);

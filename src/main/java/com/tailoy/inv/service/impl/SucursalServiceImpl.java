@@ -6,6 +6,9 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.tailoy.inv.audit.Auditable;
+import com.tailoy.inv.audit.ModuloEnum;
+import com.tailoy.inv.audit.TipoAccionEnum;
 import com.tailoy.inv.dto.SucursalDTO;
 import com.tailoy.inv.model.Sucursal;
 import com.tailoy.inv.repository.SucursalRepository;
@@ -18,7 +21,12 @@ public class SucursalServiceImpl implements SucursalService {
 	@Autowired
 	private SucursalRepository repo;
 	
-	@Override
+	@Auditable(
+		accion = "Registro de sucursales", 
+		tipo = TipoAccionEnum.REGISTRO, 
+		modulo = ModuloEnum.SUCURSAL
+		)
+    @Override
     public SucursalDTO registrarSucursal(SucursalDTO sucursalDTO) {
         if (repo.existsByCorreo(sucursalDTO.getCorreo())) {
             throw new IllegalArgumentException("Ya existe una sucursal con ese correo.");
@@ -54,6 +62,11 @@ public class SucursalServiceImpl implements SucursalService {
         return sucursales;
     }
 
+    @Auditable(
+		accion = "Modificación de sucursales", 
+		tipo = TipoAccionEnum.MODIFICACION, 
+		modulo = ModuloEnum.SUCURSAL
+		)
     @Override
     public SucursalDTO actualizarSucursal(int id, SucursalDTO dto) {
         Sucursal sucursal = repo.findById(id)

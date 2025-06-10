@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tailoy.inv.audit.Auditable;
+import com.tailoy.inv.audit.ModuloEnum;
+import com.tailoy.inv.audit.TipoAccionEnum;
 import com.tailoy.inv.dto.UsuarioDTO;
 import com.tailoy.inv.model.Cargo;
 import com.tailoy.inv.model.Usuario;
@@ -24,6 +27,11 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Autowired
     private CargoRepository cargoRepository;
 
+    @Auditable(
+		accion = "Registro de usuarios", 
+		tipo = TipoAccionEnum.REGISTRO, 
+		modulo = ModuloEnum.USUARIO
+		)
     @Override
     @Transactional
     public UsuarioDTO registrarUsuario(UsuarioDTO usuarioDTO) {
@@ -56,6 +64,11 @@ public class UsuarioServiceImpl implements UsuarioService {
         return new UsuarioDTO(usuario);
     }
 
+    @Auditable(
+		accion = "Modificación de usuarios", 
+		tipo = TipoAccionEnum.MODIFICACION, 
+		modulo = ModuloEnum.USUARIO
+		)
     @Override
     @Transactional
     public UsuarioDTO actualizarUsuario(int id, UsuarioDTO usuarioDTO) {
@@ -75,6 +88,11 @@ public class UsuarioServiceImpl implements UsuarioService {
         return new UsuarioDTO(actualizado);
     }
 
+    @Auditable(
+		accion = "Activación/desactivación de usuarios", 
+		tipo = TipoAccionEnum.CAMBIO_ESTADO, 
+		modulo = ModuloEnum.USUARIO
+		)
     @Override
     @Transactional
     public void cambiarEstadoUsuario(int id, boolean estado) {

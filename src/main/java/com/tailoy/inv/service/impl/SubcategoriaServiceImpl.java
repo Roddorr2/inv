@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tailoy.inv.audit.Auditable;
+import com.tailoy.inv.audit.ModuloEnum;
+import com.tailoy.inv.audit.TipoAccionEnum;
 import com.tailoy.inv.dto.CategoriaDTO;
 import com.tailoy.inv.dto.SubcategoriaDTO;
 import com.tailoy.inv.model.Categoria;
@@ -24,7 +27,12 @@ public class SubcategoriaServiceImpl implements SubcategoriaService {
 	@Autowired
 	private CategoriaRepository categoriaRepo;
 	
-	@Override
+	@Auditable(
+		accion = "Registro de subcategorías", 
+		tipo = TipoAccionEnum.REGISTRO, 
+		modulo = ModuloEnum.SUBCATEGORIA
+		)
+    @Override
     @Transactional
     public SubcategoriaDTO registrarSubcategoria(SubcategoriaDTO subcategoriaDTO) {
         if (existeSubcategoriaPorNombre(subcategoriaDTO.getNombre())) {
@@ -53,6 +61,11 @@ public class SubcategoriaServiceImpl implements SubcategoriaService {
         return repo.existsByNombre(nombre.trim());
     }
 
+    @Auditable(
+		accion = "Modificación de subcategorías", 
+		tipo = TipoAccionEnum.MODIFICACION, 
+		modulo = ModuloEnum.SUBCATEGORIA
+		)
     @Override
     @Transactional
     public SubcategoriaDTO actualizarSubcategoria(int id, SubcategoriaDTO subcategoriaDTO) {

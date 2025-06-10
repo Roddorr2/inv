@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tailoy.inv.audit.Auditable;
+import com.tailoy.inv.audit.ModuloEnum;
+import com.tailoy.inv.audit.TipoAccionEnum;
 import com.tailoy.inv.dto.ProductoDTO;
 import com.tailoy.inv.model.Producto;
 import com.tailoy.inv.model.Subcategoria;
@@ -22,6 +25,11 @@ public class ProductoServiceImpl implements ProductoService {
 	@Autowired
 	private SubcategoriaRepository subcategoriaRepo;
 	
+	@Auditable(
+		accion = "Registro de producto", 
+		tipo = TipoAccionEnum.REGISTRO, 
+		modulo = ModuloEnum.PRODUCTO
+		)
 	@Override
 	@Transactional
 	public Producto registrarProducto(ProductoDTO dto) {
@@ -45,6 +53,11 @@ public class ProductoServiceImpl implements ProductoService {
 	return repo.save(producto);
 	}
 	
+	@Auditable(
+		accion = "Modificación de producto", 
+		tipo = TipoAccionEnum.MODIFICACION, 
+		modulo = ModuloEnum.PRODUCTO
+		)
 	@Override
 	@Transactional
 	public Producto modificarProducto(int id, ProductoDTO dto) {
@@ -72,6 +85,11 @@ public class ProductoServiceImpl implements ProductoService {
 		return repo.save(producto);
 	}
 	
+	@Auditable(
+		accion = "Activación/desactivación de producto", 
+		tipo = TipoAccionEnum.CAMBIO_ESTADO, 
+		modulo = ModuloEnum.PRODUCTO
+		)
 	@Override
 	@Transactional
 	public void cambiarEstadoProducto(int id, boolean nuevoEstado) {

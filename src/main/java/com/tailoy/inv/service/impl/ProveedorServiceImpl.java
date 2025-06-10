@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tailoy.inv.audit.Auditable;
+import com.tailoy.inv.audit.ModuloEnum;
+import com.tailoy.inv.audit.TipoAccionEnum;
 import com.tailoy.inv.dto.ProveedorDTO;
 import com.tailoy.inv.model.Proveedor;
 import com.tailoy.inv.repository.ProveedorRepository;
@@ -18,6 +21,11 @@ public class ProveedorServiceImpl implements ProveedorService {
 	@Autowired
     private ProveedorRepository repo;
 
+	@Auditable(
+		accion = "Registro de proveedores", 
+		tipo = TipoAccionEnum.REGISTRO, 
+		modulo = ModuloEnum.PROVEEDOR
+		)
 	@Override
     @Transactional
     public Proveedor registrarProveedor(ProveedorDTO proveedorDTO) {
@@ -52,6 +60,11 @@ public class ProveedorServiceImpl implements ProveedorService {
 				.orElseThrow(() -> new EntityNotFoundException("Proveedor no encontrado con RUC: " + ruc));
 	}
 
+	@Auditable(
+		accion = "Modificación de proveedores", 
+		tipo = TipoAccionEnum.MODIFICACION, 
+		modulo = ModuloEnum.PROVEEDOR
+		)
 	@Override
 	@Transactional
 	public Proveedor modificarProveedor(int idProveedor, ProveedorDTO proveedorDTO) {
@@ -71,6 +84,11 @@ public class ProveedorServiceImpl implements ProveedorService {
 		return repo.save(proveedor);
 	}
 
+	@Auditable(
+		accion = "Activación/desactivación de proveedores", 
+		tipo = TipoAccionEnum.CAMBIO_ESTADO, 
+		modulo = ModuloEnum.PROVEEDOR
+		)
 	@Override
 	@Transactional
 	public void cambiarEstadoProveedor(int idProveedor, boolean nuevoEstado) {

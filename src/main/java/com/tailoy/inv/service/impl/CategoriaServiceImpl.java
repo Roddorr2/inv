@@ -6,6 +6,9 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.tailoy.inv.audit.Auditable;
+import com.tailoy.inv.audit.ModuloEnum;
+import com.tailoy.inv.audit.TipoAccionEnum;
 import com.tailoy.inv.dto.CategoriaDTO;
 import com.tailoy.inv.model.Categoria;
 import com.tailoy.inv.repository.CategoriaRepository;
@@ -18,6 +21,11 @@ public class CategoriaServiceImpl implements CategoriaService {
     @Autowired
     private CategoriaRepository categoriaRepository;
 
+    @Auditable(
+		accion = "Registro de categorías", 
+		tipo = TipoAccionEnum.REGISTRO, 
+		modulo = ModuloEnum.CATEGORIA
+		)
     @Override
     public CategoriaDTO registrarCategoria(CategoriaDTO categoriaDTO) {
         if (categoriaDTO == null || categoriaDTO.getNombre() == null || categoriaDTO.getNombre().trim().isEmpty()) {
@@ -47,6 +55,11 @@ public class CategoriaServiceImpl implements CategoriaService {
             return new CategoriaDTO(categoria);
     }
 
+    @Auditable(
+		accion = "Modificación de categorías", 
+		tipo = TipoAccionEnum.MODIFICACION, 
+		modulo = ModuloEnum.CATEGORIA
+		)
     @Override
     public CategoriaDTO actualizarCategoria(int id, CategoriaDTO categoriaDTO) {
         if (categoriaDTO == null || categoriaDTO.getNombre() == null || categoriaDTO.getNombre().trim().isEmpty()) {
