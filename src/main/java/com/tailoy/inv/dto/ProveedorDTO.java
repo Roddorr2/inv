@@ -2,7 +2,7 @@ package com.tailoy.inv.dto;
 
 import com.tailoy.inv.model.Proveedor;
 
-public class ProveedorDTO {
+public class ProveedorDTO implements AuditDescripcion {
     private int id;
     private String nombre;
     private String ruc;
@@ -70,6 +70,9 @@ public class ProveedorDTO {
         this.estado = estado;
     }
 
-    
+    @Override
+    public String getDescripcionParaHistorial() {
+        return "Proveedor - Nombre : " + nombre + ", RUC: " + ruc;
+    }
 
 }
