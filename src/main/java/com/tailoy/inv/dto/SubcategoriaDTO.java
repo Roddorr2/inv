@@ -42,6 +42,6 @@ public class SubcategoriaDTO implements AuditDescripcion {
 
     @Override
     public String getDescripcionParaHistorial() {
-        return "Subcategoria - Nombre : " + nombre + ", Categoria: " + categoria.getDescripcionParaHistorial();
+        return "Nombre : " + nombre + ", Categoria: " + categoria.getDescripcionParaHistorial();
     }
 }

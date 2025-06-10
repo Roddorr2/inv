@@ -72,6 +72,6 @@ public class UsuarioDTO implements AuditDescripcion {
 
     @Override
     public String getDescripcionParaHistorial() {
-        return "Usuario - Nombre : " + nombre + ", Correo: " + correo + ", Cargo: " + cargo.getDescripcionParaHistorial();
+        return "Nombre : " + nombre + ", Correo: " + correo + ", Cargo: " + cargo.getDescripcionParaHistorial();
     }
 }

@@ -32,6 +32,6 @@ public class CategoriaDTO implements AuditDescripcion {
 
     @Override
     public String getDescripcionParaHistorial() {
-        return "Categoria - Nombre : " + nombre + ", Código: " + id;
+        return "Nombre : " + nombre + ", Código: " + id;
     }
 }

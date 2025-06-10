@@ -32,7 +32,7 @@ public class CargoDTO implements AuditDescripcion {
 
     @Override
     public String getDescripcionParaHistorial() {
-        return "Cargo - Nombre : " + nombre + ", Código: " + id;
+        return "Nombre : " + nombre + ", Código: " + id;
     }
     
 }

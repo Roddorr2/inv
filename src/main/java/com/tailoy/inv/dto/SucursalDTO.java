@@ -52,7 +52,7 @@ public class SucursalDTO implements AuditDescripcion {
 
     @Override
     public String getDescripcionParaHistorial() {
-        return "Sucursal - Ciudad : " + ciudad + ", Dirección: " + direccion + ", Correo: " + correo;
+        return "Ciudad : " + ciudad + ", Dirección: " + direccion + ", Correo: " + correo;
     }
 
 }

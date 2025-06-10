@@ -72,7 +72,7 @@ public class ProveedorDTO implements AuditDescripcion {
 
     @Override
     public String getDescripcionParaHistorial() {
-        return "Proveedor - Nombre : " + nombre + ", RUC: " + ruc;
+        return "Nombre : " + nombre + ", RUC: " + ruc;
     }
 
 }

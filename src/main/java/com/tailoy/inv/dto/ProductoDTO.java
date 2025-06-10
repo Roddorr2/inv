@@ -113,6 +113,6 @@ public class ProductoDTO implements AuditDescripcion {
 
     @Override
     public String getDescripcionParaHistorial() {
-        return "Producto - Nombre : " + nombre + ", Código: " + codigo;
+        return "Nombre : " + nombre + ", Código: " + codigo;
     }
 }
