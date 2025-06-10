@@ -2,7 +2,7 @@ package com.tailoy.inv.dto;
 
 import com.tailoy.inv.model.Subcategoria;
 
-public class SubcategoriaDTO {
+public class SubcategoriaDTO implements AuditDescripcion {
     private int id;
     private String nombre;
     private CategoriaDTO categoria;
@@ -38,5 +38,10 @@ public class SubcategoriaDTO {
 
     public void setCategoria(CategoriaDTO categoria) {
         this.categoria = categoria;
+    }
+
+    @Override
+    public String getDescripcionParaHistorial() {
+        return "Subcategoria - Nombre : " + nombre + ", Categoria: " + categoria.getDescripcionParaHistorial();
     }
 }

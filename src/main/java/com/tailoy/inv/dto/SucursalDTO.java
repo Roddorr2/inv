@@ -2,7 +2,7 @@ package com.tailoy.inv.dto;
 
 import com.tailoy.inv.model.Sucursal;
 
-public class SucursalDTO {
+public class SucursalDTO implements AuditDescripcion {
     private int id;
     private String ciudad;
     private String direccion;
@@ -49,4 +49,10 @@ public class SucursalDTO {
     public void setCorreo(String correo) {
         this.correo = correo;
     }    
+
+    @Override
+    public String getDescripcionParaHistorial() {
+        return "Sucursal - Ciudad : " + ciudad + ", Dirección: " + direccion + ", Correo: " + correo;
+    }
+
 }

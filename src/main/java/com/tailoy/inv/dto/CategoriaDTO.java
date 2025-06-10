@@ -2,7 +2,7 @@ package com.tailoy.inv.dto;
 
 import com.tailoy.inv.model.Categoria;
 
-public class CategoriaDTO {
+public class CategoriaDTO implements AuditDescripcion {
     private int id;
     private String nombre;
 
@@ -28,5 +28,10 @@ public class CategoriaDTO {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    @Override
+    public String getDescripcionParaHistorial() {
+        return "Categoria - Nombre : " + nombre + ", Código: " + id;
     }
 }

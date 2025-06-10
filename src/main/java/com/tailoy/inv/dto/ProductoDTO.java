@@ -2,7 +2,7 @@ package com.tailoy.inv.dto;
 
 import com.tailoy.inv.model.Producto;
 
-public class ProductoDTO {
+public class ProductoDTO implements AuditDescripcion {
     private int id;
     private int codigo;
     private String nombre;
@@ -109,5 +109,10 @@ public class ProductoDTO {
 
     public void setEstado(boolean estado) {
         this.estado = estado;
+    }
+
+    @Override
+    public String getDescripcionParaHistorial() {
+        return "Producto - Nombre : " + nombre + ", Código: " + codigo;
     }
 }

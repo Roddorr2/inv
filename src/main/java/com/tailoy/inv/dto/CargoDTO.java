@@ -2,7 +2,7 @@ package com.tailoy.inv.dto;
 
 import com.tailoy.inv.model.Cargo;
 
-public class CargoDTO {
+public class CargoDTO implements AuditDescripcion {
     private int id;
     private String nombre;
 
@@ -29,4 +29,10 @@ public class CargoDTO {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
+    @Override
+    public String getDescripcionParaHistorial() {
+        return "Cargo - Nombre : " + nombre + ", Código: " + id;
+    }
+    
 }

@@ -2,7 +2,7 @@ package com.tailoy.inv.dto;
 
 import com.tailoy.inv.model.Usuario;
 
-public class UsuarioDTO {
+public class UsuarioDTO implements AuditDescripcion {
     private int id;
     private String nombre;
     private String correo;
@@ -69,4 +69,9 @@ public class UsuarioDTO {
 	public void setEstado(boolean estado) {
 		this.estado = estado;
 	}
+
+    @Override
+    public String getDescripcionParaHistorial() {
+        return "Usuario - Nombre : " + nombre + ", Correo: " + correo + ", Cargo: " + cargo.getDescripcionParaHistorial();
+    }
 }
