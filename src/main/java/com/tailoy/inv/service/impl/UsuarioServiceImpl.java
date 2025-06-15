@@ -127,4 +127,11 @@ public class UsuarioServiceImpl implements UsuarioService {
         List<UsuarioDTO> usuarios = repo.findByCargo(cargo);
         return usuarios;
     }
+
+    @Override
+    public UsuarioDTO obtenerPorNombre(String nombre) {
+        Usuario usuario = repo.findByNombre(nombre)
+            .orElseThrow(() -> new RuntimeException("Usuario no encontrado: " + nombre));
+        return new UsuarioDTO(usuario);
+    }
 }

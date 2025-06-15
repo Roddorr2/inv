@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -71,8 +72,15 @@ public class UsuarioController {
     }
 
     @GetMapping("/cargo/{idCargo}")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<UsuarioDTO>> listarPorCargo(@PathVariable int idCargo) {
         return ResponseEntity.ok(usuarioService.listarUsuarioPorCargo(idCargo));
+    }
+
+    @GetMapping("/actual")
+    @PreAuthorize("isAuthenticated() and hasRole('ADMIN')")
+    public ResponseEntity<UsuarioDTO> obtenerUsuarioActual() {
+        String nombreUsuario = SecurityContextHolder.getContext().getAuthentication().getName();
+        UsuarioDTO usuario = usuarioService.obtenerPorNombre(nombreUsuario);
+        return ResponseEntity.ok(usuario);
     }
 }

@@ -14,4 +14,5 @@ public interface UsuarioService {
     boolean existePorNombre(String nombre);
     boolean existePorCorreo(String correo);
     List<UsuarioDTO> listarUsuarioPorCargo(int id);
+    UsuarioDTO obtenerPorNombre(String nombre);
 }
