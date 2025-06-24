@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tailoy.inv.dto.CargoDTO;
 import com.tailoy.inv.model.Cargo;
 import com.tailoy.inv.service.CargoService;
 
@@ -32,8 +33,8 @@ public class CargoController {
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Cargo> registrarCargo(@Validated @RequestBody Cargo cargo) {
-        Cargo nuevoCargo = cargoService.registrarCargo(cargo);
+    public ResponseEntity<CargoDTO> registrarCargo(@Validated @RequestBody CargoDTO cargoDTO) {
+        CargoDTO nuevoCargo = cargoService.registrarCargo(cargoDTO);
         return ResponseEntity.ok(nuevoCargo);
     }
 
@@ -53,14 +54,9 @@ public class CargoController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Cargo> actualizarCargo(@PathVariable int id, @Validated @RequestBody Cargo cargo) {
-        Optional<Cargo> existente = cargoService.obtenerCargosPorId(id);
-        if (existente.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        cargo.setId(id);
-        return ResponseEntity.ok(cargoService.actualizarCargo(cargo));
+    public ResponseEntity<CargoDTO> actualizarCargo(@PathVariable int id, @Validated @RequestBody CargoDTO cargoDTO) {
+        CargoDTO actualizado  = cargoService.actualizarCargo(id, cargoDTO);
+        return ResponseEntity.ok(actualizado);
     }
 
     @GetMapping("/existe")
@@ -71,7 +67,7 @@ public class CargoController {
 
     @GetMapping("/buscar")
     @PreAuthorize("hasAnyRole('ADMIN')")
-    public ResponseEntity<List<Cargo>> buscarPorNombre(@RequestParam String nombre) {
+    public ResponseEntity<List<CargoDTO>> buscarPorNombre(@RequestParam String nombre) {
         return ResponseEntity.ok(cargoService.buscarCargoPorNombre(nombre));
     }
 }
