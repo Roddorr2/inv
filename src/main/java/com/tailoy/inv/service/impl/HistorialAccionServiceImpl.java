@@ -6,6 +6,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.tailoy.inv.audit.Auditable;
+import com.tailoy.inv.audit.ModuloEnum;
+import com.tailoy.inv.audit.TipoAccionEnum;
 import com.tailoy.inv.model.HistorialAccion;
 import com.tailoy.inv.model.Usuario;
 import com.tailoy.inv.repository.HistorialAccionRepository;
@@ -41,6 +44,11 @@ public class HistorialAccionServiceImpl implements HistorialAccionService{
         historialAccionRepo.save(accion);
     }
 
+    @Auditable(
+        accion = "Revisión de auditoría",
+        tipo = TipoAccionEnum.CONSULTA,
+        modulo = ModuloEnum.HISTORIAL
+    )
     @Override
     public List<HistorialAccion> obtenerHistorialCompleto() {
         return historialAccionRepo.findAll();
