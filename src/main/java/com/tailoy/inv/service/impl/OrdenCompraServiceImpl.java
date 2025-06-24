@@ -2,7 +2,9 @@ package com.tailoy.inv.service.impl;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.poi.ss.usermodel.Row;
@@ -14,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tailoy.inv.dto.OrdenCompraDTO;
+import com.tailoy.inv.dto.OrdenCompraDetalladoDTO;
+import com.tailoy.inv.dto.ProductoOrdenDTO;
 import com.tailoy.inv.model.OrdenCompra;
 import com.tailoy.inv.model.OrdenCompraProducto;
 import com.tailoy.inv.model.Producto;
@@ -69,8 +73,74 @@ public class OrdenCompraServiceImpl implements OrdenCompraService {
 	}
 	
 	@Override
-	public List<OrdenCompra> listarOrdenes() {
-		return repo.findAll();
+	@Transactional
+	public OrdenCompra actualizarOrdenCompra(OrdenCompraDTO dto) {
+		OrdenCompra orden = repo.findById(dto.getId())
+				.orElseThrow(() -> new RuntimeException("Orden no encontrada."));
+
+		Proveedor proveedor = proveedorRepo.findById(dto.getProveedor().getId())
+				.orElseThrow(() -> new RuntimeException("Proveedor no encontrado."));
+
+		orden.setProveedor(proveedor);
+		orden.setFecha(dto.getFecha());
+		orden.setEstadoOperacion(dto.getEstadoOperacion());
+		repo.save(orden);
+
+		List<OrdenCompraProducto> productosActuales = ordenProductoRepo.findByOrdenCompraId(orden.getId());
+		Map<Integer, OrdenCompraProducto> mapActuales = productosActuales.stream()
+				.collect(Collectors.toMap(OrdenCompraProducto::getId, p -> p));
+
+		List<OrdenCompraProducto> productosActualizados = new ArrayList<>();
+
+		for (ProductoOrdenDTO prodDto : dto.getProductos()) {
+			Producto producto = productoRepo.findById(prodDto.getId())
+					.orElseThrow(() -> new RuntimeException("Producto no encontrado."));
+
+			OrdenCompraProducto productoActual;
+			if (prodDto.getId() != 0 && mapActuales.containsKey(prodDto.getId())) {
+				productoActual = mapActuales.get(prodDto.getId());
+				productoActual.setCantidad(prodDto.getCantidad());
+				productoActual.setPrecioUnitario(prodDto.getPrecioUnitario());
+				productoActual.setObservaciones(prodDto.getObservaciones());
+				productoActual.setProducto(producto);
+				mapActuales.remove(prodDto.getId());
+			} else {
+				productoActual = new OrdenCompraProducto();
+				productoActual.setOrdenCompra(orden);
+				productoActual.setProducto(producto);
+				productoActual.setCantidad(prodDto.getCantidad());
+				productoActual.setPrecioUnitario(prodDto.getPrecioUnitario());
+				productoActual.setObservaciones(prodDto.getObservaciones());
+			}
+
+			productosActualizados.add(productoActual);
+		}
+
+		for (OrdenCompraProducto eliminado : mapActuales.values()) {
+			ordenProductoRepo.delete(eliminado);
+		}
+
+		ordenProductoRepo.saveAll(productosActualizados);
+
+		return orden;
+	}
+
+	@Override
+	public List<OrdenCompraDetalladoDTO> listarOrdenes() {
+		List<Object[]> results = repo.findOrdenesCompraDetalle();
+
+		return results.stream()
+			.map(row -> new OrdenCompraDetalladoDTO(
+				(String) row[0],
+				((java.sql.Timestamp) row[1]).toLocalDateTime().toLocalDate(),
+				(String) row[2],
+				(String) row[3],
+				(double) row[4],
+				(int) row[5],
+				(double) row[6],
+				(String) row[7]
+			))
+			.collect(Collectors.toList());
 	}
 	
 	@Override
