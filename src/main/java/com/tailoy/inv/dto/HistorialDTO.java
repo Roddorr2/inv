@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 import com.tailoy.inv.model.HistorialAccion;
 
-public class HistorialDTO {
+public class HistorialDTO implements AuditDescripcion {
     private int id;
     private LocalDateTime fecha;
     private int tipoAccion;
@@ -68,5 +68,9 @@ public class HistorialDTO {
     public void setUsuario(UsuarioDTO usuario) {
         this.usuario = usuario;
     }
-    
+
+    @Override
+    public String getDescripcionParaHistorial() {
+        return "Usuario : " + usuario + ", Descripción: " + descripcion;
+    }
 }
