@@ -9,9 +9,12 @@ import org.springframework.stereotype.Service;
 import com.tailoy.inv.audit.Auditable;
 import com.tailoy.inv.audit.ModuloEnum;
 import com.tailoy.inv.audit.TipoAccionEnum;
+import com.tailoy.inv.dto.CargoDTO;
 import com.tailoy.inv.model.Cargo;
 import com.tailoy.inv.repository.CargoRepository;
 import com.tailoy.inv.service.CargoService;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class CargoServiceImpl implements CargoService {
@@ -19,21 +22,25 @@ public class CargoServiceImpl implements CargoService {
     private CargoRepository cargoRepository;
     
     @Auditable(
-		accion = "Registro de CARGOS", 
+		accion = "Registro de cargos", 
 		tipo = TipoAccionEnum.REGISTRO, 
 		modulo = ModuloEnum.CARGO
 		)
     @Override
-    public Cargo registrarCargo(Cargo cargo) {
-        if (cargo == null || cargo.getNombre() == null || cargo.getNombre().trim().isEmpty()) {
+    public CargoDTO registrarCargo(CargoDTO cargoDTO) {
+        if (cargoDTO == null || cargoDTO.getNombre() == null || cargoDTO.getNombre().trim().isEmpty()) {
             throw new IllegalArgumentException("El nombre del cargo es obligatorio.");
         }
 
-        if (existeCargoPorNombre(cargo.getNombre())) {
+        if (existeCargoPorNombre(cargoDTO.getNombre())) {
             throw new IllegalArgumentException("Ya existe un cargo con ese nombre");
         }
 
-        return cargoRepository.save(cargo);
+        Cargo cargo = new Cargo();
+        cargo.setNombre(cargoDTO.getNombre().toUpperCase());
+
+        Cargo guardado = cargoRepository.save(cargo);
+        return new CargoDTO(guardado);
     }
 
     @Override
@@ -52,8 +59,17 @@ public class CargoServiceImpl implements CargoService {
 		modulo = ModuloEnum.CARGO
 		)
     @Override
-    public Cargo actualizarCargo(Cargo cargo) {
-        return cargoRepository.save(cargo);
+    public CargoDTO actualizarCargo(int id, CargoDTO cargoDTO) {
+        if (cargoDTO == null || cargoDTO.getNombre() == null || cargoDTO.getNombre().trim().isEmpty()) {
+            throw new IllegalArgumentException("El ID del cargo es obligatorio.");
+        }
+        Cargo cargo = cargoRepository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("El cargo no existe."));        
+
+        cargo.setNombre(cargoDTO.getNombre().toUpperCase());
+
+        Cargo actualizado = cargoRepository.save(cargo);
+        return new CargoDTO(actualizado);
     }
 
     @Override
@@ -62,7 +78,8 @@ public class CargoServiceImpl implements CargoService {
     }
     
     @Override
-    public List<Cargo> buscarCargoPorNombre(String nombre) {
-    	return cargoRepository.findByNombreContainingIgnoreCase(nombre);
+    public List<CargoDTO> buscarCargoPorNombre(String nombre) {
+        List<CargoDTO> cargos = cargoRepository.findByNombreContainingIgnoreCase(nombre);
+        return cargos;
     }
 }

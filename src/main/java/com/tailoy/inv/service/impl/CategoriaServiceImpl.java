@@ -37,7 +37,7 @@ public class CategoriaServiceImpl implements CategoriaService {
         }
 
         Categoria categoria = new Categoria();
-        categoria.setNombre(categoriaDTO.getNombre());
+        categoria.setNombre(categoriaDTO.getNombre().toUpperCase());
 
         Categoria guardada = categoriaRepository.save(categoria);
         return new CategoriaDTO(guardada);
