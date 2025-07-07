@@ -1,5 +1,7 @@
 package com.tailoy.inv.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,6 +19,7 @@ public class DespachoSucursalProducto {
     private String observaciones;
     @ManyToOne
     @JoinColumn(name = "despachoSucursalId", nullable = false)
+    @JsonBackReference
     private DespachoSucursal despachoSucursal;
     @ManyToOne
     @JoinColumn(name = "productoId", nullable = false)

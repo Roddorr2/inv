@@ -1,5 +1,7 @@
 package com.tailoy.inv.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,6 +17,7 @@ public class OrdenCompraProducto {
 
     @ManyToOne
     @JoinColumn(name = "ordenCompraId", referencedColumnName = "id", nullable = false)
+    @JsonBackReference
     private OrdenCompra ordenCompra;
 
     @ManyToOne
