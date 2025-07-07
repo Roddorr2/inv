@@ -18,48 +18,41 @@ import jakarta.servlet.http.HttpServletResponse;
 public class JwtAuthFilter extends OncePerRequestFilter {
 	private final JwtUtil jwtUtil;
 	private final UserDetailsService userDetailsService;
-	
+
 	public JwtAuthFilter(JwtUtil jwtUtil, UserDetailsService userDetailsService) {
 		this.jwtUtil = jwtUtil;
 		this.userDetailsService = userDetailsService;
 	}
-	
+
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-	        throws ServletException, IOException {
+			throws ServletException, IOException {
 
-	    final String header = request.getHeader("Authorization");
+		final String header = request.getHeader("Authorization");
 
-	    if (header != null && header.startsWith("Bearer ")) {
-	        System.out.println("Authorization Header: " + header);
-	        String token = header.substring(7);
+		if (header != null && header.startsWith("Bearer ")) {
 
-	        try {
-	            System.out.println("MENSAJE DE PRUEBA PARA VER EL TOKEN RECIBIDO: " + token);
+			String token = header.substring(7);
 
-	            // 🔥 Este es el punto crítico
-	            String username = jwtUtil.getUsernameFromToken(token);
+			try {
 
-	            System.out.println("Usuario extraído del token: " + username);
+				String username = jwtUtil.getUsernameFromToken(token);
 
-	            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-	                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+				if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+					UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
-	                if (jwtUtil.validateToken(token)) {
-	                    UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
-	                            userDetails, null, userDetails.getAuthorities());
-	                    SecurityContextHolder.getContext().setAuthentication(auth);
-	                }
-	            }
-	        } catch (Exception e) {
-	            System.out.println("⚠️ Error al procesar token: " + e.getMessage());
-	            e.printStackTrace();
-	        }
-	    }
+					if (jwtUtil.validateToken(token)) {
+						UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
+								userDetails, null, userDetails.getAuthorities());
+						SecurityContextHolder.getContext().setAuthentication(auth);
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 
-	    filterChain.doFilter(request, response);
+		filterChain.doFilter(request, response);
 	}
 
-	
-	
 }
