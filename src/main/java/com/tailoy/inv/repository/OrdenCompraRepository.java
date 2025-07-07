@@ -1,6 +1,6 @@
 package com.tailoy.inv.repository;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,9 +12,10 @@ import com.tailoy.inv.model.OrdenCompra;
 @Repository
 public interface OrdenCompraRepository extends JpaRepository<OrdenCompra, Integer> {
 	List<OrdenCompra> findByEstadoOperacion(int estadoOperacion);
-	List<OrdenCompra> findByFechaBetween(LocalDateTime desde, LocalDateTime hasta);
+	List<OrdenCompra> findByFechaBetween(LocalDate desde, LocalDate hasta);
 	@Query(value = """
-		SELECT pr.nombre AS proveedor,
+		SELECT oc.id AS ID, 
+			pr.nombre AS proveedor,
 			oc.fecha AS fecha,
 			CASE oc.estado_operacion
 				WHEN 0 THEN 'Cancelado'
@@ -25,7 +26,7 @@ public interface OrdenCompraRepository extends JpaRepository<OrdenCompra, Intege
 			p.nombre AS producto,
 			ocp.precio_unitario AS precioUnitario,
 			ocp.cantidad AS cantidad,
-			(ocp.precio_unitario * ocp.cantidad) AS total,
+    		ROUND(ocp.precio_unitario * ocp.cantidad, 2) AS total,
 			ocp.observaciones AS observaciones
 		FROM orden_compra oc
 		JOIN orden_compra_producto ocp ON oc.id = ocp.orden_compra_id
