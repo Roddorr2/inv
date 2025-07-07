@@ -9,6 +9,10 @@ public class ProductoOrdenDTO {
     private double precioUnitario;
     private String observaciones;
 
+    public ProductoOrdenDTO() {
+        
+    }
+
     public ProductoOrdenDTO(OrdenCompraProducto compraProducto) {
         this.id = compraProducto.getId();
         this.producto = new ProductoDTO(compraProducto.getProducto());
