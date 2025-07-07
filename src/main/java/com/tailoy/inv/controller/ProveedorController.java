@@ -37,25 +37,24 @@ public class ProveedorController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'GERENTE_COMPRAS')")
     public ResponseEntity<List<Proveedor>> listar() {
         return ResponseEntity.ok(proveedorService.listarProveedores());
     }
 
     @GetMapping("/id/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'GERENTE_COMPRAS')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('GERENTE_DE_COMPRAS')")
     public ResponseEntity<Proveedor> obtenerPorId(@PathVariable int id) {
         return ResponseEntity.ok(proveedorService.obtenerPorId(id));
     }
 
     @GetMapping("/ruc/{ruc}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('GERENTE_DE_COMPRAS')")
     public ResponseEntity<Proveedor> obtenerPorRuc(@PathVariable String ruc) {
         return ResponseEntity.ok(proveedorService.obtenerPorRuc(ruc));
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('GERENTE_DE_COMPRAS')")
     public ResponseEntity<Proveedor> actualizar(@PathVariable int id, @Validated @RequestBody ProveedorDTO proveedorDTO) {
         Proveedor proveedorActualizado = proveedorService.modificarProveedor(id, proveedorDTO);
         return ResponseEntity.ok(proveedorActualizado);
