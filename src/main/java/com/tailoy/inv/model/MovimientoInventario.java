@@ -1,6 +1,6 @@
 package com.tailoy.inv.model;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,9 +15,8 @@ public class MovimientoInventario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private int cantidad;
-    private String nombre;
     private int tipoMovimiento;
-    private LocalDateTime fecha;
+    private LocalDate fecha;
     @ManyToOne
     @JoinColumn(name = "productoId", nullable = false)
     private Producto producto;
@@ -26,20 +25,17 @@ public class MovimientoInventario {
     private Usuario usuario;
 
     public MovimientoInventario() {
-        this.fecha = LocalDateTime.now(); 
     }
 
-    public MovimientoInventario(int id, int cantidad, String nombre, int tipoMovimiento, LocalDateTime fecha, Producto producto, Usuario usuario) {
+    public MovimientoInventario(int id, int cantidad, int tipoMovimiento, LocalDate fecha,
+            Producto producto, Usuario usuario) {
         this.id = id;
         this.cantidad = cantidad;
-        this.nombre = nombre;
         this.tipoMovimiento = tipoMovimiento;
         this.fecha = fecha;
         this.producto = producto;
         this.usuario = usuario;
     }
-
-    // Getters y Setters
 
     public int getId() {
         return id;
@@ -57,14 +53,6 @@ public class MovimientoInventario {
         this.cantidad = cantidad;
     }
 
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
     public int getTipoMovimiento() {
         return tipoMovimiento;
     }
@@ -73,11 +61,11 @@ public class MovimientoInventario {
         this.tipoMovimiento = tipoMovimiento;
     }
 
-    public LocalDateTime getFecha() {
+    public LocalDate getFecha() {
         return fecha;
     }
 
-    public void setFecha(LocalDateTime fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 
