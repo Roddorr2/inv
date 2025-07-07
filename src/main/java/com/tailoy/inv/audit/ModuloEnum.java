@@ -7,8 +7,8 @@ public enum ModuloEnum {
     SUCURSAL(4),
     CARGO(5),
     CATEGORIA(6),
-    SUBCATEGORIA(8),
-    HISTORIAL(9);
+    SUBCATEGORIA(7),
+    HISTORIAL(8);
 
     private final int codigo;
 
