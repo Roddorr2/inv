@@ -9,6 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tailoy.inv.audit.Auditable;
 import com.tailoy.inv.audit.ModuloEnum;
 import com.tailoy.inv.audit.TipoAccionEnum;
+import com.tailoy.inv.command.CambiarEstadoProveedorCommand;
+import com.tailoy.inv.command.ModificarProveedorCommand;
+import com.tailoy.inv.command.RegistrarProveedorCommand;
 import com.tailoy.inv.dto.ProveedorDTO;
 import com.tailoy.inv.model.Proveedor;
 import com.tailoy.inv.repository.ProveedorRepository;
@@ -19,40 +22,34 @@ import jakarta.persistence.EntityNotFoundException;
 @Service
 public class ProveedorServiceImpl implements ProveedorService {
 	@Autowired
-    private ProveedorRepository repo;
+	private ProveedorRepository repo;
 
-	@Auditable(
-		accion = "Registro de proveedores", 
-		tipo = TipoAccionEnum.REGISTRO, 
-		modulo = ModuloEnum.PROVEEDOR
-		)
+	@Autowired
+	private RegistrarProveedorCommand registrarProveedorCommand;
+
+	@Autowired
+	private ModificarProveedorCommand modificarProveedorCommand;
+
+	@Autowired
+	private CambiarEstadoProveedorCommand cambiarEstadoProveedorCommand;
+
+	@Auditable(accion = "Registro de proveedores", tipo = TipoAccionEnum.REGISTRO, modulo = ModuloEnum.PROVEEDOR)
 	@Override
-    @Transactional
-    public Proveedor registrarProveedor(ProveedorDTO proveedorDTO) {
-        if (repo.existsByRuc(proveedorDTO.getRuc())) {
-            throw new IllegalArgumentException("Ya existe un proveedor con ese RUC.");
-        }
+	@Transactional
+	public Proveedor registrarProveedor(ProveedorDTO proveedorDTO) {
+		return registrarProveedorCommand.ejecutar(proveedorDTO, null);
+	}
 
-        Proveedor proveedor = new Proveedor();
-        proveedor.setNombre(proveedorDTO.getNombre());
-        proveedor.setRuc(proveedorDTO.getRuc());
-        proveedor.setTelefono(proveedorDTO.getTelefono());
-        proveedor.setDireccion(proveedorDTO.getDireccion());
-        proveedor.setEstado(true); 
+	@Override
+	public List<Proveedor> listarProveedores() {
+		return repo.findAll();
+	}
 
-        return repo.save(proveedor);
-    }
-
-    @Override
-    public List<Proveedor> listarProveedores() {
-        return repo.findAll();
-    }
-
-    @Override
-    public Proveedor obtenerPorId(int id) {
-        return repo.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Proveedor no encontrado con ID: " + id));
-    }
+	@Override
+	public Proveedor obtenerPorId(int id) {
+		return repo.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException("Proveedor no encontrado con ID: " + id));
+	}
 
 	@Override
 	public Proveedor obtenerPorRuc(String ruc) {
@@ -60,63 +57,35 @@ public class ProveedorServiceImpl implements ProveedorService {
 				.orElseThrow(() -> new EntityNotFoundException("Proveedor no encontrado con RUC: " + ruc));
 	}
 
-	@Auditable(
-		accion = "Modificación de proveedores", 
-		tipo = TipoAccionEnum.MODIFICACION, 
-		modulo = ModuloEnum.PROVEEDOR
-		)
+	@Auditable(accion = "Modificación de proveedores", tipo = TipoAccionEnum.MODIFICACION, modulo = ModuloEnum.PROVEEDOR)
 	@Override
 	@Transactional
 	public Proveedor modificarProveedor(int idProveedor, ProveedorDTO proveedorDTO) {
-		Proveedor proveedor = repo.findById(idProveedor)
-				.orElseThrow(() -> new EntityNotFoundException("Proveedor no encontrado con ID: " + idProveedor));
-
-		if (!proveedor.getRuc().equals(proveedorDTO.getRuc()) &&
-			repo.existsByRuc(proveedorDTO.getRuc())) {
-			throw new IllegalArgumentException("Ya existe otro proveedor con ese RUC.");
-		}
-
-		proveedor.setNombre(proveedorDTO.getNombre());
-		proveedor.setRuc(proveedorDTO.getRuc());
-		proveedor.setTelefono(proveedorDTO.getTelefono());
-		proveedor.setDireccion(proveedorDTO.getDireccion());
-
-		return repo.save(proveedor);
+		return modificarProveedorCommand.ejecutar(proveedorDTO, idProveedor);
 	}
 
-	@Auditable(
-		accion = "Activación/desactivación de proveedores", 
-		tipo = TipoAccionEnum.CAMBIO_ESTADO, 
-		modulo = ModuloEnum.PROVEEDOR
-		)
+	@Auditable(accion = "Activación/desactivación de proveedores", tipo = TipoAccionEnum.CAMBIO_ESTADO, modulo = ModuloEnum.PROVEEDOR)
 	@Override
 	@Transactional
 	public void cambiarEstadoProveedor(int idProveedor, boolean nuevoEstado) {
-		Proveedor proveedor = repo.findById(idProveedor)
-				.orElseThrow(() -> new EntityNotFoundException("Proveedor no encontrado con ID: " + idProveedor));
-
-		if (proveedor.isEstado() == nuevoEstado) {
-			throw new IllegalStateException("El proveedor ya tiene ese estado.");
-		}
-
-		proveedor.setEstado(nuevoEstado);
-		repo.save(proveedor);
+		ProveedorDTO dto = new ProveedorDTO();
+		dto.setEstado(nuevoEstado);
+		cambiarEstadoProveedorCommand.ejecutar(dto, idProveedor);
 	}
-	
+
 	@Override
-    public List<Proveedor> buscarPorNombreORucOTelefonoODireccion(String q) {
+	public List<Proveedor> buscarPorNombreORucOTelefonoODireccion(String q) {
 		return repo.findByNombreOrRucOrTelefonoOrDireccionContainingIgnoreCase(q);
 	}
 
 	@Override
-    public boolean existeProveedoroPorRuc(String ruc) {
-        return repo.existsByRuc(ruc.trim());
-    }
-	
+	public boolean existeProveedoroPorRuc(String ruc) {
+		return repo.existsByRuc(ruc.trim());
+	}
+
 	@Override
 	public boolean existeProveedorPorNombre(String nombre) {
 		return repo.existsByNombre(nombre.trim());
 	}
 
-	
 }
