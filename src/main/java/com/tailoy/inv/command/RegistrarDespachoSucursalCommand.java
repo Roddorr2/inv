@@ -34,6 +34,7 @@ public class RegistrarDespachoSucursalCommand extends DespachoSucursalOperacionT
         despacho.setEstadoOperacion(1);
 
         DespachoSucursal saved = despachoSucursalRepo.save(despacho);
+        despachoProductoRepo.flush();
 
         List<DespachoSucursalProducto> productos = dto.getProductos().stream().map(p -> {
             Producto producto = productoRepo.findById(p.getId())

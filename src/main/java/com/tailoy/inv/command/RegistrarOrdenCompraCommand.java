@@ -37,6 +37,7 @@ public class RegistrarOrdenCompraCommand extends OrdenCompraOperacionTemplate im
         orden.setEstadoOperacion(1);
 
         OrdenCompra ordenGuardada = ordenCompraRepo.save(orden);
+        ordenCompraRepo.flush();
 
         List<OrdenCompraProducto> productos = dto.getProductos().stream().map(p -> {
             Producto producto = productoRepo.findById(p.getId())
