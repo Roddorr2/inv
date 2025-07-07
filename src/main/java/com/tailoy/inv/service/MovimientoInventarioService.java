@@ -1,16 +1,21 @@
 package com.tailoy.inv.service;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
+import com.tailoy.inv.dto.MovimientoInventarioDetalleDTO;
 import com.tailoy.inv.model.MovimientoInventario;
 
 public interface MovimientoInventarioService {
-    void registrarAjusteStock(int productoId, int cantidad, String motivo, int tipoMovimiento, LocalDateTime fecha, int usuarioId);
-    List<MovimientoInventario> listarMovimientos();
-    List<MovimientoInventario> filtrarPorRangoFechas(LocalDateTime inicio, LocalDateTime fin);
+    List<MovimientoInventarioDetalleDTO> listarMovimientos();
+
+    List<MovimientoInventario> filtrarPorRangoFechas(LocalDate inicio, LocalDate fin);
+
     List<MovimientoInventario> filtrarPorUsuario(int usuarioId);
-    List<MovimientoInventario> filtrarPorProducto(int productoId); 
+
+    List<MovimientoInventario> filtrarPorProducto(int productoId);
+
     MovimientoInventario obtenerDetalleMovimiento(int id);
-    byte[] exportarMovimientos(List<MovimientoInventario> movimientos, String formato);
+
+    byte[] exportarMovimientos(int idMovimineto);
 }

@@ -5,7 +5,6 @@ import java.util.List;
 import com.tailoy.inv.model.HistorialAccion;
 
 public interface HistorialAccionService {
-    void registrarAccion(String nombreUsuario, int tipoAccion, String descripcion, int modulo);
     List<HistorialAccion> obtenerHistorialCompleto();
     List<HistorialAccion> buscarHistorial(String nombreUsuario, int tipoAccion);
     List<HistorialAccion> buscarHistorial(String nombreUsuario, int tipoAccion, LocalDateTime fechaInicio, LocalDateTime fechaFin, int modulo);
