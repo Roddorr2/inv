@@ -39,13 +39,11 @@ public class CargoController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<List<Cargo>> listarCargos() {
         return ResponseEntity.ok(cargoService.listarCargos());
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<Cargo> obtenerCargoPorId(@PathVariable int id) {
         Optional<Cargo> cargo = cargoService.obtenerCargosPorId(id);
         return cargo.map(ResponseEntity::ok)
@@ -60,13 +58,11 @@ public class CargoController {
     }
 
     @GetMapping("/existe")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Boolean> existeCargoPorNombre(@RequestParam String nombre) {
         return ResponseEntity.ok(cargoService.existeCargoPorNombre(nombre));
     }
 
     @GetMapping("/buscar")
-    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<List<CargoDTO>> buscarPorNombre(@RequestParam String nombre) {
         return ResponseEntity.ok(cargoService.buscarCargoPorNombre(nombre));
     }

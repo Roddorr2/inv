@@ -3,6 +3,7 @@ package com.tailoy.inv.dto;
 import java.time.LocalDate;
 
 public class OrdenCompraDetalladoDTO {
+    private int id;
     private String proveedor;
     private LocalDate fecha;
     private String estadoOperacion;
@@ -15,6 +16,21 @@ public class OrdenCompraDetalladoDTO {
     public OrdenCompraDetalladoDTO() {
     }
 
+    public OrdenCompraDetalladoDTO(int id, String proveedor, LocalDate fecha, String estadoOperacion, String producto,
+            double precioUnitario, Integer cantidad, double total, String observaciones) {
+        this.id = id;
+        this.proveedor = proveedor;
+        this.fecha = fecha;
+        this.estadoOperacion = estadoOperacion;
+        this.producto = producto;
+        this.precioUnitario = precioUnitario;
+        this.cantidad = cantidad;
+        this.total = total;
+        this.observaciones = observaciones;
+    }
+
+
+
     public OrdenCompraDetalladoDTO(String proveedor, LocalDate fecha, String estadoOperacion, String producto,
             double precioUnitario, Integer cantidad, double total, String observaciones) {
         this.proveedor = proveedor;
@@ -25,6 +41,14 @@ public class OrdenCompraDetalladoDTO {
         this.cantidad = cantidad;
         this.total = total;
         this.observaciones = observaciones;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getProveedor() {

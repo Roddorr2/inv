@@ -37,13 +37,11 @@ public class SubcategoriaController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'GERENTE_DE_COMPRAS', 'ALMACENERO')")
     public ResponseEntity<List<SubcategoriaDTO>> listarSubcategorias() {
         return ResponseEntity.ok(subcategoriaService.listarSubcategorias());
     }
     
     @GetMapping("/existe")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Boolean> existePorNombre(@RequestParam String nombre) {
         return ResponseEntity.ok(subcategoriaService.existeSubcategoriaPorNombre(nombre));
     }
@@ -56,13 +54,11 @@ public class SubcategoriaController {
     }
 
     @GetMapping("/por-categoria/{idCategoria}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'GERENTE_DE_COMPRAS', 'ALMACENERO')")
     public ResponseEntity<List<SubcategoriaDTO>> listarPorCategoria(@PathVariable int idCategoria) {
         return ResponseEntity.ok(subcategoriaService.listarSubcategoriasPorCategoria(idCategoria));
     }
 
     @GetMapping("/buscar")
-    @PreAuthorize("hasAnyRole('ADMIN', 'GERENTE_DE_COMPRAS', 'ALMACENERO')")
     public ResponseEntity<List<SubcategoriaDTO>> buscarPorNombre(@RequestParam String nombre) {
         return ResponseEntity.ok(subcategoriaService.buscarPorNombre(nombre));
     }

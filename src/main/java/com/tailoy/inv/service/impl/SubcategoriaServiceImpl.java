@@ -10,45 +10,35 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tailoy.inv.audit.Auditable;
 import com.tailoy.inv.audit.ModuloEnum;
 import com.tailoy.inv.audit.TipoAccionEnum;
-import com.tailoy.inv.dto.CategoriaDTO;
+import com.tailoy.inv.command.ActualizarSubcategoriaCommand;
+import com.tailoy.inv.command.RegistrarSubcategoriaCommand;
 import com.tailoy.inv.dto.SubcategoriaDTO;
 import com.tailoy.inv.model.Categoria;
-import com.tailoy.inv.model.Subcategoria;
 import com.tailoy.inv.repository.CategoriaRepository;
 import com.tailoy.inv.repository.SubcategoriaRepository;
 import com.tailoy.inv.service.SubcategoriaService;
 
 import jakarta.persistence.EntityNotFoundException;
 
-@Service 
+@Service
 public class SubcategoriaServiceImpl implements SubcategoriaService {
-	@Autowired
-	private SubcategoriaRepository repo;
-	@Autowired
-	private CategoriaRepository categoriaRepo;
-	
-	@Auditable(
-		accion = "Registro de subcategorías", 
-		tipo = TipoAccionEnum.REGISTRO, 
-		modulo = ModuloEnum.SUBCATEGORIA
-		)
+    @Autowired
+    private SubcategoriaRepository repo;
+
+    @Autowired
+    private CategoriaRepository categoriaRepo;
+
+    @Autowired
+    private RegistrarSubcategoriaCommand registrarSubcategoriaCommand;
+
+    @Autowired
+    private ActualizarSubcategoriaCommand actualizarSubcategoriaCommand;
+
+    @Auditable(accion = "Registro de subcategorías", tipo = TipoAccionEnum.REGISTRO, modulo = ModuloEnum.SUBCATEGORIA)
     @Override
     @Transactional
     public SubcategoriaDTO registrarSubcategoria(SubcategoriaDTO subcategoriaDTO) {
-        if (existeSubcategoriaPorNombre(subcategoriaDTO.getNombre())) {
-            throw new IllegalArgumentException("Ya existe una subcategoría con ese nombre.");
-        }
-
-        CategoriaDTO categoriaDTO = subcategoriaDTO.getCategoria();
-        Categoria categoria = categoriaRepo.findById(categoriaDTO.getId())
-                .orElseThrow(() -> new EntityNotFoundException("Categoría no encontrada con ID: " + categoriaDTO.getId()));
-
-        Subcategoria subcategoria = new Subcategoria();
-        subcategoria.setNombre(subcategoriaDTO.getNombre());
-        subcategoria.setCategoria(categoria);
-
-        Subcategoria guardada = repo.save(subcategoria);
-        return new SubcategoriaDTO(guardada);
+        return registrarSubcategoriaCommand.ejecutar(subcategoriaDTO, null);
     }
 
     @Override
@@ -61,30 +51,11 @@ public class SubcategoriaServiceImpl implements SubcategoriaService {
         return repo.existsByNombre(nombre.trim());
     }
 
-    @Auditable(
-		accion = "Modificación de subcategorías", 
-		tipo = TipoAccionEnum.MODIFICACION, 
-		modulo = ModuloEnum.SUBCATEGORIA
-		)
+    @Auditable(accion = "Modificación de subcategorías", tipo = TipoAccionEnum.MODIFICACION, modulo = ModuloEnum.SUBCATEGORIA)
     @Override
     @Transactional
     public SubcategoriaDTO actualizarSubcategoria(int id, SubcategoriaDTO subcategoriaDTO) {
-        Subcategoria existente = repo.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Subcategoría no encontrada con ID: " + id));
-
-        if (!existente.getNombre().equalsIgnoreCase(subcategoriaDTO.getNombre())
-                && repo.existsByNombre(subcategoriaDTO.getNombre())) {
-            throw new IllegalArgumentException("Ya existe otra subcategoría con ese nombre.");
-        }
-
-        Categoria nuevaCategoria = categoriaRepo.findById(subcategoriaDTO.getCategoria().getId())
-                .orElseThrow(() -> new EntityNotFoundException("Categoría no encontrada con ID: " + subcategoriaDTO.getCategoria().getId()));
-
-        existente.setNombre(subcategoriaDTO.getNombre());
-        existente.setCategoria(nuevaCategoria);
-
-        Subcategoria actualizada = repo.save(existente);
-        return new SubcategoriaDTO(actualizada);
+        return actualizarSubcategoriaCommand.ejecutar(subcategoriaDTO, id);
     }
 
     @Override

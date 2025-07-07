@@ -29,19 +29,16 @@ public class SucursalController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'GERENTE_DE_COMPRAS')")
     public ResponseEntity<List<SucursalDTO>> listarSucursales() {
         return ResponseEntity.ok(sucursalService.listarSucursales());
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'GERENTE_DE_COMPRAS')")
     public ResponseEntity<SucursalDTO> obtenerSucursalPorId(@PathVariable int id) {
         return ResponseEntity.ok(sucursalService.obtenerSucursalPorId(id));
     }
 
     @GetMapping("/correo")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<SucursalDTO>> obtenerSucursalPorCorreo(@RequestParam String correo) {
         return ResponseEntity.ok(sucursalService.obtenerSucursalPorCorreo(correo));
     }
@@ -54,13 +51,11 @@ public class SucursalController {
     }
 
     @GetMapping("/buscar")
-    @PreAuthorize("hasAnyRole('ADMIN', 'GERENTE_DE_COMPRAS')")
     public ResponseEntity<List<SucursalDTO>> buscarPorDireccionOCorreo(@RequestParam String q) {
         return ResponseEntity.ok(sucursalService.buscarPorDireccionOCorreo(q));
     }
     
     @GetMapping("/existe")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Boolean> existePorCorreo(@RequestParam String correo) {
         return ResponseEntity.ok(sucursalService.existeSucursalPorCorreo(correo));
     }

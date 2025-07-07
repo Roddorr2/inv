@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import com.tailoy.inv.audit.Auditable;
 import com.tailoy.inv.audit.ModuloEnum;
 import com.tailoy.inv.audit.TipoAccionEnum;
+import com.tailoy.inv.command.ActualizarSucursalCommand;
+import com.tailoy.inv.command.RegistrarSucursalCommand;
 import com.tailoy.inv.dto.SucursalDTO;
 import com.tailoy.inv.model.Sucursal;
 import com.tailoy.inv.repository.SucursalRepository;
@@ -18,27 +20,19 @@ import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class SucursalServiceImpl implements SucursalService {
-	@Autowired
-	private SucursalRepository repo;
-	
-	@Auditable(
-		accion = "Registro de sucursales", 
-		tipo = TipoAccionEnum.REGISTRO, 
-		modulo = ModuloEnum.SUCURSAL
-		)
+    @Autowired
+    private SucursalRepository repo;
+
+    @Autowired
+    private ActualizarSucursalCommand actualizarSucursalCommand;
+
+    @Autowired
+    private RegistrarSucursalCommand registrarSucursalCommand;
+
+    @Auditable(accion = "Registro de sucursales", tipo = TipoAccionEnum.REGISTRO, modulo = ModuloEnum.SUCURSAL)
     @Override
     public SucursalDTO registrarSucursal(SucursalDTO sucursalDTO) {
-        if (repo.existsByCorreo(sucursalDTO.getCorreo())) {
-            throw new IllegalArgumentException("Ya existe una sucursal con ese correo.");
-        }
-
-        Sucursal sucursal = new Sucursal();
-        sucursal.setCiudad(sucursalDTO.getCiudad());
-        sucursal.setDireccion(sucursalDTO.getDireccion());
-        sucursal.setCorreo(sucursalDTO.getCorreo());
-
-        Sucursal guardada = repo.save(sucursal);
-        return new SucursalDTO(guardada);
+        return registrarSucursalCommand.ejecutar(sucursalDTO, null);
     }
 
     @Override
@@ -58,41 +52,26 @@ public class SucursalServiceImpl implements SucursalService {
 
     @Override
     public List<SucursalDTO> obtenerSucursalPorCorreo(String correo) {
-    	List<SucursalDTO> sucursales = repo.findByCorreo(correo);
+        List<SucursalDTO> sucursales = repo.findByCorreo(correo);
         return sucursales;
     }
 
-    @Auditable(
-		accion = "Modificación de sucursales", 
-		tipo = TipoAccionEnum.MODIFICACION, 
-		modulo = ModuloEnum.SUCURSAL
-		)
+    @Auditable(accion = "Modificación de sucursales", tipo = TipoAccionEnum.MODIFICACION, modulo = ModuloEnum.SUCURSAL)
     @Override
     public SucursalDTO actualizarSucursal(int id, SucursalDTO dto) {
-        Sucursal sucursal = repo.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Sucursal no encontrada con ID: " + id));
-
-        if (!sucursal.getCorreo().equalsIgnoreCase(dto.getCorreo())
-                && repo.existsByCorreo(dto.getCorreo())) {
-            throw new IllegalArgumentException("Ya existe otra sucursal con ese correo.");
-        }
-
-        sucursal.setCorreo(dto.getCorreo());
-        sucursal.setDireccion(dto.getDireccion());
-        sucursal.setCiudad(dto.getCiudad());
-
-        return new SucursalDTO(repo.save(sucursal));
+        return actualizarSucursalCommand.ejecutar(dto, id);
     }
 
     @Override
     public List<SucursalDTO> buscarPorDireccionOCorreo(String q) {
-        List<SucursalDTO> sucursales = repo.findByDireccionContainingIgnoreCaseOrCorreoContainingIgnoreCase(q.trim(), q.trim());
+        List<SucursalDTO> sucursales = repo.findByDireccionContainingIgnoreCaseOrCorreoContainingIgnoreCase(q.trim(),
+                q.trim());
         return sucursales;
     }
-    
+
     @Override
     public boolean existeSucursalPorCorreo(String correo) {
-    	 return repo.existsByCorreo(correo.trim());
+        return repo.existsByCorreo(correo.trim());
     }
-	
+
 }

@@ -1,9 +1,9 @@
 package com.tailoy.inv.service.impl;
 
 import java.io.ByteArrayOutputStream;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -11,12 +11,9 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.tailoy.inv.dto.MovimientoInventarioDetalleDTO;
 import com.tailoy.inv.model.MovimientoInventario;
-import com.tailoy.inv.model.Producto;
-import com.tailoy.inv.model.Usuario;
 import com.tailoy.inv.repository.MovimientoInventarioRepository;
-import com.tailoy.inv.repository.ProductoRepository;
-import com.tailoy.inv.repository.UsuarioRepository;
 import com.tailoy.inv.service.MovimientoInventarioService;
 
 @Service
@@ -25,39 +22,23 @@ public class MovimientoInventarioServiceImpl implements MovimientoInventarioServ
     @Autowired
     private MovimientoInventarioRepository repo;
 
-    @Autowired
-    private ProductoRepository productoRepo;
-
-    @Autowired
-    private UsuarioRepository usuarioRepo;
-
     @Override
-    public void registrarAjusteStock(int productoId, int cantidad, String motivo, int tipoMovimiento, LocalDateTime fecha, int usuarioId) {
-        Optional<Producto> producto = productoRepo.findById(productoId);
-        Optional<Usuario> usuario = usuarioRepo.findById(usuarioId);
+    public List<MovimientoInventarioDetalleDTO> listarMovimientos() {
+        List<Object[]> resultados = repo.findMovimientos();
 
-        if (producto.isEmpty() || usuario.isEmpty()) {
-            throw new RuntimeException("Producto o usuario no encontrado.");
-        }
-
-        MovimientoInventario movimiento = new MovimientoInventario();
-        movimiento.setCantidad(cantidad);
-        movimiento.setNombre(motivo);
-        movimiento.setTipoMovimiento(tipoMovimiento);
-        movimiento.setFecha(LocalDateTime.now());
-        movimiento.setProducto(producto.get());
-        movimiento.setUsuario(usuario.get());
-
-        repo.save(movimiento);
+        return resultados.stream()
+                .map(obj -> new MovimientoInventarioDetalleDTO(
+                        (int) obj[0],
+                        (int) obj[1],
+                        (String) obj[2],
+                        ((java.sql.Date) obj[3]).toLocalDate(),
+                        (String) obj[4],
+                        (String) obj[5]))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public List<MovimientoInventario> listarMovimientos() {
-        return repo.findAll();
-    }
-
-    @Override 
-    public List<MovimientoInventario> filtrarPorRangoFechas(LocalDateTime inicio, LocalDateTime fin) {
+    public List<MovimientoInventario> filtrarPorRangoFechas(LocalDate inicio, LocalDate fin) {
         return repo.findByFechaBetween(inicio, fin);
     }
 
@@ -78,7 +59,10 @@ public class MovimientoInventarioServiceImpl implements MovimientoInventarioServ
     }
 
     @Override
-    public byte[] exportarMovimientos(List<MovimientoInventario> movimientos, String formato) {
+    public byte[] exportarMovimientos(int idMovimiento) {
+        MovimientoInventario mov = repo.findById(idMovimiento)
+                .orElseThrow(() -> new IllegalArgumentException("Movimiento no encontrado"));
+
         try (XSSFWorkbook workbook = new XSSFWorkbook()) {
             XSSFSheet sheet = workbook.createSheet("Movimientos");
 
@@ -87,28 +71,23 @@ public class MovimientoInventarioServiceImpl implements MovimientoInventarioServ
             header.createCell(1).setCellValue("Producto");
             header.createCell(2).setCellValue("Cantidad");
             header.createCell(3).setCellValue("Tipo Movimiento");
-            header.createCell(4).setCellValue("Motivo");
-            header.createCell(5).setCellValue("Usuario");
-            header.createCell(6).setCellValue("Fecha");
+            header.createCell(4).setCellValue("Usuario");
+            header.createCell(5).setCellValue("Fecha");
 
-            int rowNum = 1;
-            for (MovimientoInventario mov : movimientos) {
-                Row row = sheet.createRow(rowNum++);
-                row.createCell(0).setCellValue(String.valueOf(mov.getId()));
-                row.createCell(1).setCellValue(mov.getProducto().getNombre());
-                row.createCell(2).setCellValue((double) mov.getCantidad());
-                row.createCell(3).setCellValue(String.valueOf(mov.getTipoMovimiento()));
-                row.createCell(4).setCellValue(mov.getNombre());
-                row.createCell(5).setCellValue(mov.getUsuario().getNombre());
-                row.createCell(6).setCellValue(mov.getFecha().toString());
-            }
+            Row row = sheet.createRow(1);
+            row.createCell(0).setCellValue(String.valueOf(mov.getId()));
+            row.createCell(1).setCellValue(mov.getProducto().getNombre());
+            row.createCell(2).setCellValue((double) mov.getCantidad());
+            row.createCell(3).setCellValue(String.valueOf(mov.getTipoMovimiento()));
+            row.createCell(4).setCellValue(mov.getUsuario().getNombre());
+            row.createCell(5).setCellValue(mov.getFecha().toString());
 
             try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
                 workbook.write(out);
                 return out.toByteArray();
             }
         } catch (Exception e) {
-            throw new RuntimeException("Error al exportar movimientos", e);
+            throw new RuntimeException("Error al exportar movimiento", e);
         }
     }
 

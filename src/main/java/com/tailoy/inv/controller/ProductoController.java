@@ -36,49 +36,45 @@ public class ProductoController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Producto> modificarProducto(@PathVariable int id, @Validated @RequestBody ProductoDTO productoDTO) {
+    @PreAuthorize("hasRole('ADMIN') or hasRole('GERENTE_DE_COMPRAS')")
+    public ResponseEntity<Producto> modificarProducto(@PathVariable int id,
+            @Validated @RequestBody ProductoDTO productoDTO) {
         Producto actualizado = productoService.modificarProducto(id, productoDTO);
         return ResponseEntity.ok(actualizado);
     }
 
-    @PatchMapping("/{id}/estado") 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PatchMapping("/{id}/estado")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('GERENTE_DE_COMPRAS')")
     public ResponseEntity<Void> cambiarEstado(@PathVariable int id, @RequestParam boolean estado) {
         productoService.cambiarEstadoProducto(id, estado);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Producto> obtenerPorId(@PathVariable int id) {
         Producto producto = productoService.obtenerPorId(id);
         return ResponseEntity.ok(producto);
     }
-    
+
     @GetMapping("/buscar")
     public ResponseEntity<List<Producto>> buscarProductos(@RequestParam("q") String q) {
-    	List<Producto> resultados = productoService.buscarPorNombreOMarcaOCodigo(q);
-    	return ResponseEntity.ok(resultados);
+        List<Producto> resultados = productoService.buscarPorNombreOMarcaOCodigo(q);
+        return ResponseEntity.ok(resultados);
     }
-    
 
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<Producto>> listarProductos() {
         List<Producto> productos = productoService.listarProductos();
         return ResponseEntity.ok(productos);
     }
 
     @GetMapping("/activos")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<Producto>> listarProductosActivos() {
         List<Producto> activos = productoService.listarActivos();
         return ResponseEntity.ok(activos);
     }
 
     @GetMapping("/existe")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Boolean> existePorCodigo(@RequestParam int codigo) {
         boolean existe = productoService.existeCodigoProducto(codigo);
         return ResponseEntity.ok(existe);

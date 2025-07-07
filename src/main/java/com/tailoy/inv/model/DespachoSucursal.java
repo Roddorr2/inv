@@ -1,13 +1,18 @@
 package com.tailoy.inv.model;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class DespachoSucursal {
@@ -15,15 +20,18 @@ public class DespachoSucursal {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private int estadoOperacion;
-    private LocalDateTime fecha;
+    private LocalDate fecha;
     @ManyToOne
     @JoinColumn(name = "sucursalId", nullable = false)
     private Sucursal sucursal;
+    @OneToMany(mappedBy="despachoSucursal", cascade=CascadeType.ALL)
+    @JsonManagedReference
+    private List<DespachoSucursalProducto> productos;
     
     public DespachoSucursal() {
     }
 
-    public DespachoSucursal(int id, int estadoOperacion, LocalDateTime fecha, Sucursal sucursal) {
+    public DespachoSucursal(int id, int estadoOperacion, LocalDate fecha, Sucursal sucursal) {
         this.id = id;
         this.estadoOperacion = estadoOperacion;
         this.fecha = fecha;
@@ -46,11 +54,11 @@ public class DespachoSucursal {
         this.estadoOperacion = estadoOperacion;
     }
 
-    public LocalDateTime getFecha() {
+    public LocalDate getFecha() {
         return fecha;
     }
 
-    public void setFecha(LocalDateTime fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 

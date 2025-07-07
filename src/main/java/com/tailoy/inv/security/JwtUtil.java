@@ -17,8 +17,7 @@ public class JwtUtil {
 	private final Key key = Keys.hmacShaKeyFor(java.util.Base64.getDecoder().decode(jwtSecret));
 	
 	public JwtUtil() {
-		System.out.println("CLAVE SECRETA USADA EN JwtUtil: " +
-				Base64.getEncoder().encodeToString(key.getEncoded()));
+		Base64.getEncoder().encodeToString(key.getEncoded());
 	}
 	
 	public String generateToken(String username) {

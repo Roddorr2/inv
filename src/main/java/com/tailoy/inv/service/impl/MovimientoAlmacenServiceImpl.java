@@ -1,10 +1,12 @@
 package com.tailoy.inv.service.impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.tailoy.inv.dto.MovimientoAlmacenDetalleDTO;
 import com.tailoy.inv.model.MovimientoAlmacen;
 import com.tailoy.inv.repository.MovimientoAlmacenRepository;
 import com.tailoy.inv.service.MovimientoAlmacenService;
@@ -15,29 +17,17 @@ public class MovimientoAlmacenServiceImpl implements MovimientoAlmacenService {
     private MovimientoAlmacenRepository repo;
 
     @Override
-    public MovimientoAlmacen registrarEntrada(MovimientoAlmacen movimientoAlmacen) {
-        if (movimientoAlmacen == null) {
-            throw new IllegalArgumentException("El movimiento de almacen es obligatorio.");
-        }
+    public List<MovimientoAlmacenDetalleDTO> listarMovimientos() {
+        List<Object[]> results = repo.findMovimientoAlmacenDetalle();
 
-        if (movimientoAlmacen.getTipoAlmacen() != 1) {
-            throw new IllegalArgumentException("El movimiento de almacen debe ser de entrada.");
-        }
-
-        return repo.save(movimientoAlmacen);
-    }
-
-    @Override
-    public MovimientoAlmacen registrarSalida(MovimientoAlmacen movimientoAlmacen) {
-        if (movimientoAlmacen == null) {
-            throw new IllegalArgumentException("El movimiento de almacen es obligatorio.");
-        }
-
-        if (movimientoAlmacen.getTipoAlmacen() != 2) {
-            throw new IllegalArgumentException("El movimiento de almacen debe ser de salida.");
-        }
-
-        return repo.save(movimientoAlmacen);
+        return results.stream()
+                .map(row -> new MovimientoAlmacenDetalleDTO(
+                        (int) row[0],
+                        (String) row[1],
+                        (int) row[2],
+                        (int) row[3],
+                        (String) row[4]))
+                .collect(Collectors.toList());
     }
 
     @Override

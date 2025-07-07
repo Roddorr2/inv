@@ -34,34 +34,33 @@ public class CategoriaController {
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<CategoriaDTO>> listarCategorias() {
         List<CategoriaDTO> categorias = categoriaService.listarCategorias();
         return ResponseEntity.ok(categorias);
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CategoriaDTO> obtenerPorId(@PathVariable int id) {
         CategoriaDTO categoria = categoriaService.obtenerCategoriaPorId(id);
         return ResponseEntity.ok(categoria);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CategoriaDTO> actualizarCategoria(@PathVariable int id, @Validated @RequestBody CategoriaDTO categoriaDTO) {
-        CategoriaDTO actualizada  = categoriaService.actualizarCategoria(id, categoriaDTO);
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<CategoriaDTO> actualizarCategoria(@PathVariable int id,
+            @Validated @RequestBody CategoriaDTO categoriaDTO) {
+        CategoriaDTO actualizada = categoriaService.actualizarCategoria(id, categoriaDTO);
         return ResponseEntity.ok(actualizada);
     }
 
     @GetMapping("/existe")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Boolean> existePorNombre(@RequestParam String nombre) {
-        boolean existe = categoriaService.existeCategoriaPorNombre(nombre);;
+        boolean existe = categoriaService.existeCategoriaPorNombre(nombre);
+        ;
         return ResponseEntity.ok(existe);
     }
-    
+
     @GetMapping("/buscar")
-    @PreAuthorize("hasAnyRole('ADMIN', 'GERENTE_DE_COMPRAS', 'ALMACENERO')")
     public ResponseEntity<List<CategoriaDTO>> buscarPorNombre(@RequestParam String nombre) {
         return ResponseEntity.ok(categoriaService.buscarPorNombre(nombre));
     }

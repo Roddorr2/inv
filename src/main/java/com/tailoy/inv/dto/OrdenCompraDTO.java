@@ -1,6 +1,6 @@
 package com.tailoy.inv.dto;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 import com.tailoy.inv.model.OrdenCompra;
@@ -8,7 +8,7 @@ import com.tailoy.inv.model.OrdenCompra;
 public class OrdenCompraDTO {
     private int id;
     private ProveedorDTO proveedor;
-    private LocalDateTime fecha;
+    private LocalDate fecha;
     private List<ProductoOrdenDTO> productos;
     private int estadoOperacion;
 
@@ -38,11 +38,11 @@ public class OrdenCompraDTO {
         this.proveedor = proveedor;
     }
 
-    public LocalDateTime getFecha() {
+    public LocalDate getFecha() {
         return fecha;
     }
 
-    public void setFecha(LocalDateTime fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 

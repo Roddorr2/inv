@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import com.tailoy.inv.audit.Auditable;
 import com.tailoy.inv.audit.ModuloEnum;
 import com.tailoy.inv.audit.TipoAccionEnum;
+import com.tailoy.inv.command.ActualizarCategoriaCommand;
+import com.tailoy.inv.command.RegistrarCategoriaCommand;
 import com.tailoy.inv.dto.CategoriaDTO;
 import com.tailoy.inv.model.Categoria;
 import com.tailoy.inv.repository.CategoriaRepository;
@@ -21,26 +23,16 @@ public class CategoriaServiceImpl implements CategoriaService {
     @Autowired
     private CategoriaRepository categoriaRepository;
 
-    @Auditable(
-		accion = "Registro de categorías", 
-		tipo = TipoAccionEnum.REGISTRO, 
-		modulo = ModuloEnum.CATEGORIA
-		)
+    @Autowired
+    private RegistrarCategoriaCommand registrarCategoriaCommand;
+
+    @Autowired
+    private ActualizarCategoriaCommand actualizarCategoriaCommand;
+
+    @Auditable(accion = "Registro de categorías", tipo = TipoAccionEnum.REGISTRO, modulo = ModuloEnum.CATEGORIA)
     @Override
     public CategoriaDTO registrarCategoria(CategoriaDTO categoriaDTO) {
-        if (categoriaDTO == null || categoriaDTO.getNombre() == null || categoriaDTO.getNombre().trim().isEmpty()) {
-            throw new IllegalArgumentException("El nombre de la categoría es obligatorio.");
-        }
-
-        if (existeCategoriaPorNombre(categoriaDTO.getNombre())) {
-            throw new IllegalArgumentException("Ya existe una categoría con ese nombre");
-        }
-
-        Categoria categoria = new Categoria();
-        categoria.setNombre(categoriaDTO.getNombre().toUpperCase());
-
-        Categoria guardada = categoriaRepository.save(categoria);
-        return new CategoriaDTO(guardada);
+        return registrarCategoriaCommand.ejecutar(categoriaDTO, null);
     }
 
     @Override
@@ -51,37 +43,24 @@ public class CategoriaServiceImpl implements CategoriaService {
     @Override
     public CategoriaDTO obtenerCategoriaPorId(int id) {
         Categoria categoria = categoriaRepository.findById(id)
-            .orElseThrow(() -> new EntityNotFoundException("La categoría no existe"));
-            return new CategoriaDTO(categoria);
+                .orElseThrow(() -> new EntityNotFoundException("La categoría no existe"));
+        return new CategoriaDTO(categoria);
     }
 
-    @Auditable(
-		accion = "Modificación de categorías", 
-		tipo = TipoAccionEnum.MODIFICACION, 
-		modulo = ModuloEnum.CATEGORIA
-		)
+    @Auditable(accion = "Modificación de categorías", tipo = TipoAccionEnum.MODIFICACION, modulo = ModuloEnum.CATEGORIA)
     @Override
     public CategoriaDTO actualizarCategoria(int id, CategoriaDTO categoriaDTO) {
-        if (categoriaDTO == null || categoriaDTO.getNombre() == null || categoriaDTO.getNombre().trim().isEmpty()) {
-            throw new IllegalArgumentException("El ID de la categoría es obligatorio.");
-        }
-        Categoria categoria = categoriaRepository.findById(id)
-            .orElseThrow(() -> new EntityNotFoundException("La categoría no existe."));        
-
-        categoria.setNombre(categoriaDTO.getNombre());
-
-        Categoria actualizada = categoriaRepository.save(categoria);
-        return new CategoriaDTO(actualizada);
+        return actualizarCategoriaCommand.ejecutar(categoriaDTO, id);
     }
 
     @Override
     public boolean existeCategoriaPorNombre(String nombre) {
         return categoriaRepository.existsByNombre(nombre.trim());
     }
-    
+
     @Override
     public List<CategoriaDTO> buscarPorNombre(String nombre) {
-    	List<CategoriaDTO> categorias = categoriaRepository.findByNombreContainingIgnoreCase(nombre);
-    	return categorias;
+        List<CategoriaDTO> categorias = categoriaRepository.findByNombreContainingIgnoreCase(nombre);
+        return categorias;
     }
 }
