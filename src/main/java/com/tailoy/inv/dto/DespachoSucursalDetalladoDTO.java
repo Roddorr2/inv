@@ -2,24 +2,24 @@ package com.tailoy.inv.dto;
 
 import java.time.LocalDate;
 
-public class OrdenCompraDetalladoDTO {
+public class DespachoSucursalDetalladoDTO {
     private int id;
-    private String proveedor;
+    private String correoSucursal;
     private LocalDate fecha;
     private String estadoOperacion;
     private String producto;
     private double precioUnitario;
-    private Integer cantidad;
+    private int cantidad;
     private double total;
     private String observaciones;
-    
-    public OrdenCompraDetalladoDTO() {
+
+    public DespachoSucursalDetalladoDTO() {
     }
 
-    public OrdenCompraDetalladoDTO(int id, String proveedor, LocalDate fecha, String estadoOperacion, String producto,
-            double precioUnitario, Integer cantidad, double total, String observaciones) {
+    public DespachoSucursalDetalladoDTO(int id, String correoSucursal, LocalDate fecha, String estadoOperacion, String producto, double precioUnitario, int cantidad,
+            double total, String observaciones) {
         this.id = id;
-        this.proveedor = proveedor;
+        this.correoSucursal = correoSucursal;
         this.fecha = fecha;
         this.estadoOperacion = estadoOperacion;
         this.producto = producto;
@@ -28,35 +28,18 @@ public class OrdenCompraDetalladoDTO {
         this.total = total;
         this.observaciones = observaciones;
     }
-
-
-
-    public OrdenCompraDetalladoDTO(String proveedor, LocalDate fecha, String estadoOperacion, String producto,
-            double precioUnitario, Integer cantidad, double total, String observaciones) {
-        this.proveedor = proveedor;
-        this.fecha = fecha;
-        this.estadoOperacion = estadoOperacion;
-        this.producto = producto;
-        this.precioUnitario = precioUnitario;
-        this.cantidad = cantidad;
-        this.total = total;
-        this.observaciones = observaciones;
-    }
-
     public int getId() {
         return id;
     }
-
     public void setId(int id) {
         this.id = id;
     }
-
-    public String getProveedor() {
-        return proveedor;
+    public String getCorreoSucursal() {
+        return correoSucursal;
     }
 
-    public void setProveedor(String proveedor) {
-        this.proveedor = proveedor;
+    public void setCorreoSucursal(String correoSucursal) {
+        this.correoSucursal = correoSucursal;
     }
 
     public LocalDate getFecha() {
@@ -67,52 +50,43 @@ public class OrdenCompraDetalladoDTO {
         this.fecha = fecha;
     }
 
+    public String getProducto() {
+        return producto;
+    }
+    public void setProducto(String producto) {
+        this.producto = producto;
+    }
+    public double getPrecioUnitario() {
+        return precioUnitario;
+    }
+    public void setPrecioUnitario(double precioUnitario) {
+        this.precioUnitario = precioUnitario;
+    }
+    public int getCantidad() {
+        return cantidad;
+    }
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
+    }
+    public double getTotal() {
+        return total;
+    }
+    public void setTotal(double total) {
+        this.total = total;
+    }
+    public String getObservaciones() {
+        return observaciones;
+    }
+    public void setObservaciones(String observaciones) {
+        this.observaciones = observaciones;
+    }
+
     public String getEstadoOperacion() {
         return estadoOperacion;
     }
 
     public void setEstadoOperacion(String estadoOperacion) {
         this.estadoOperacion = estadoOperacion;
-    }
-
-    public String getProducto() {
-        return producto;
-    }
-
-    public void setProducto(String producto) {
-        this.producto = producto;
-    }
-
-    public double getPrecioUnitario() {
-        return precioUnitario;
-    }
-
-    public void setPrecioUnitario(double precioUnitario) {
-        this.precioUnitario = precioUnitario;
-    }
-
-    public Integer getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(Integer cantidad) {
-        this.cantidad = cantidad;
-    }
-
-    public double getTotal() {
-        return total;
-    }
-
-    public void setTotal(double total) {
-        this.total = total;
-    }
-
-    public String getObservaciones() {
-        return observaciones;
-    }
-
-    public void setObservaciones(String observaciones) {
-        this.observaciones = observaciones;
     }
 
 }
