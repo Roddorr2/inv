@@ -53,12 +53,23 @@ public class MovimientoInventarioAspect {
             } else if (arg instanceof com.tailoy.inv.dto.DespachoSucursalDTO dto && dto.getId() != 0) {
                 idDocumento = dto.getId();
                 break;
+            } else if (result instanceof com.tailoy.inv.model.OrdenCompraProducto entidad && entidad.getId() != 0) {
+                idDocumento = entidad.getId();
+
+            } else if (result instanceof com.tailoy.inv.model.DespachoSucursal entidad && entidad.getId() != 0) {
+                idDocumento = entidad.getId();
             }
         }
 
         if (idDocumento == null) {
-            throw new IllegalArgumentException(
-                    "No se pudo extraer el ID del documento para registrar movimiento de inventario.");
+            if (result instanceof com.tailoy.inv.model.OrdenCompra oc && oc.getId() != 0) {
+                idDocumento = oc.getId();
+            } else if (result instanceof com.tailoy.inv.model.DespachoSucursal ds && ds.getId() != 0) {
+                idDocumento = ds.getId();
+            } else {
+                throw new IllegalArgumentException(
+                        "No se pudo extraer el ID del documento para registrar movimiento de inventario.");
+            }
         }
 
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
