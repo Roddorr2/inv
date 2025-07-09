@@ -13,7 +13,6 @@
   - [Database Setup](#database-setup)
 - [🔧 Usage](#-usage)
 - [🤝 Contributing](#-contributing)
-- [📄 License](#-license)
 
 ## Introduction
 
